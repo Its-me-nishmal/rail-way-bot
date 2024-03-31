@@ -348,13 +348,36 @@ async function startHisoka() {
   };
 
  
-  
+  setInterval(() => {
+    // Check if the bot is still running, if not, restart it
+    if (!client) {
+        console.log("Bot is not running, restarting...");
+        startBot();
+    }
+}, 10000);
 
   return client;
 }
 
+// Define the function to start the bot
+async function startBot() {
+    try {
+        // Your bot initialization code here
+        await startHisoka();
+        console.log("Bot started successfully.");
+    } catch (error) {
+        console.error("Error starting the bot:", error);
+        // If an error occurs, retry starting the bot after a delay
+        setTimeout(startBot, 5000); // Retry after 5 seconds
+    }
+}
 
-startHisoka()
+// Start the bot initially
+startBot();
+
+// Keep the bot running continuously using setInterval
+ // Check every 10 seconds if the bot is still running
+
 
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
