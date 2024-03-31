@@ -34,6 +34,20 @@ fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffe
   console.log('creds.json created successfully in temp directory.');
 });
 
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000; // Define the port number
+
+// Route to keep the bot alive
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+// Start the Express server
+app.listen(PORT, () => {
+  console.log(`Express server is running on port ${PORT}`);
+});
+
 const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
 };
@@ -335,6 +349,7 @@ async function startHisoka() {
 
     return proto.WebMessageInfo.fromObject(copy);
   };
+  
 
   return client;
 }
@@ -348,3 +363,4 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+
