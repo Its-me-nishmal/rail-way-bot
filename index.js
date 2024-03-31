@@ -184,7 +184,7 @@ async function startHisoka() {
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
       console.log(m)
-    if(m.msg == 'hi'){
+    if(m.body == 'hi'){
         console.log(m)
         m.reply(m.pushName)
     }
