@@ -346,15 +346,18 @@ async function startHisoka() {
 
     return proto.WebMessageInfo.fromObject(copy);
   };
-  app.listen(PORT, () => {
-    console.log(`Express server is running on port ${PORT}`);
-  });
+
+ 
   
 
   return client;
 }
 
-startHisoka();
+app.listen(PORT, () => {
+    startHisoka();
+    console.log(`Express server is running on port ${PORT}`);
+  });
+
 
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
