@@ -44,9 +44,6 @@ app.get('/', (req, res) => {
 });
 
 // Start the Express server
-app.listen(PORT, () => {
-  console.log(`Express server is running on port ${PORT}`);
-});
 
 const color = (text, color) => {
   return !color ? chalk.green(text) : chalk.keyword(color)(text);
@@ -349,6 +346,9 @@ async function startHisoka() {
 
     return proto.WebMessageInfo.fromObject(copy);
   };
+  app.listen(PORT, () => {
+    console.log(`Express server is running on port ${PORT}`);
+  });
   
 
   return client;
