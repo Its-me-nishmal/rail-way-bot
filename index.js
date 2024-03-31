@@ -1,4 +1,4 @@
-const sessionName = "yusril";
+const sessionName = "tmp";
 const donet = "https://saweria.co/sansekai";
 const {
   default: sansekaiConnect,
@@ -124,7 +124,7 @@ function smsg(conn, m, store) {
 }
 
 async function startHisoka() {
-  const { state, saveCreds } = await useMultiFileAuthState(`./${sessionName ? sessionName : "session"}`);
+  const { state, saveCreds } = await useMultiFileAuthState(`/${sessionName ? sessionName : "session"}/`);
   const { version, isLatest } = await fetchLatestWaWebVersion().catch(() => fetchLatestBaileysVersion());
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   console.log(
