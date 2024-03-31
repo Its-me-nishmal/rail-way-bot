@@ -353,11 +353,8 @@ async function startHisoka() {
   return client;
 }
 
-app.listen(PORT, () => {
-    startHisoka();
-    console.log(`Express server is running on port ${PORT}`);
-  });
 
+startHisoka()
 
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
@@ -365,5 +362,8 @@ fs.watchFile(file, () => {
   console.log(chalk.redBright(`Update ${__filename}`));
   delete require.cache[file];
   require(file);
+});
+app.listen(PORT, () => {
+    console.log(`Express server is running on port ${PORT}`);
 });
 
