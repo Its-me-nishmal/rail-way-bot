@@ -9,7 +9,7 @@ const {
   jidDecode,
   proto,
   getContentType,
-  Browsers, 
+  Browsers,
   fetchLatestWaWebVersion
 } = require("@whiskeysockets/baileys");
 const pino = require("pino");
@@ -26,7 +26,7 @@ const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream
 const credsFilePath = '/tmp/creds.json';
 
 // Write data to creds.json
-fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffer","data":"eL+kWBwt51mw/6dWKhqoz9AZIoRGRpea/zr+4JlAZ0Q="},"public":{"type":"Buffer","data":"/VFrBFCqq1pKpN6ozDuAjwa1Bek/AtGYdIiI3SZNwGs="}},"pairingEphemeralKeyPair":{"private":{"type":"Buffer","data":"CO7SnnTifPEfBlk6p2BWlG1tD+X34maAoO+Wn8oeJGQ="},"public":{"type":"Buffer","data":"FCeSyKxAu2RFuqBmJOWiZIGMN9CiKGuUZOmg1qbj7BI="}},"signedIdentityKey":{"private":{"type":"Buffer","data":"QPaT+mQFBGU/za/WihXdufogLu4DNt+N2Fd2J8oGmGg="},"public":{"type":"Buffer","data":"mAigaCSswyreqQoXgiBGkdqzB4S5gnn/88tdn2pCwwE="}},"signedPreKey":{"keyPair":{"private":{"type":"Buffer","data":"wCsRcNl9h3kOc4JLfdb1OwsOESptCeevloSnzspkI0c="},"public":{"type":"Buffer","data":"+5L76b5xtx3k6b/2rpWa7LU5RWjRgpX0fYoGl0AVrVk="}},"signature":{"type":"Buffer","data":"L1R6PA6Ymvmld8dKllDVmSMOQup9T6vDm+t+7L28D2Rujdwg7gcsLeDPTq/H4ACiLdQ2ykfgpxaHoY0gHAgZDg=="},"keyId":1},"registrationId":16,"advSecretKey":"tNGKr1eWLfzJQQ0CdCDXi3hiRYu/jjfYf7vhKux9DXE=","processedHistoryMessages":[{"key":{"remoteJid":"917994107442@s.whatsapp.net","fromMe":true,"id":"713B2E886D4ACFB55C879A6AF2FC1E95"},"messageTimestamp":1711857438},{"key":{"remoteJid":"917994107442@s.whatsapp.net","fromMe":true,"id":"AB44AB3FAD1F0D77976DBEE01DB62BBE"},"messageTimestamp":1711857444},{"key":{"remoteJid":"917994107442@s.whatsapp.net","fromMe":true,"id":"F57CDB602AEBB66ACBF43EAA7068AE2C"},"messageTimestamp":1711857466},{"key":{"remoteJid":"917994107442@s.whatsapp.net","fromMe":true,"id":"CB15D929585DF35C8239A076B5D38E95"},"messageTimestamp":1711857481},{"key":{"remoteJid":"917994107442@s.whatsapp.net","fromMe":true,"id":"108A7C4A027B5DDB34250FC99BB0137D"},"messageTimestamp":1711857482}],"nextPreKeyId":32,"firstUnuploadedPreKeyId":32,"accountSyncCounter":1,"accountSettings":{"unarchiveChats":false},"deviceId":"AlxNzih4T2-SOpT5G-IvZg","phoneId":"4ca917af-8b9a-4c58-ae06-153ca219211b","identityId":{"type":"Buffer","data":"GfuNBbKJYoOBvO+MdJalYtLdQhA="},"registered":false,"backupToken":{"type":"Buffer","data":"MxlN+ZIzp5A8oL0x8RHnCldxPpU="},"registration":{},"account":{"details":"CJPGzaEBEIu+o7AGGAIgACgA","accountSignatureKey":"q/HqtZmrTpgqoJY/cjWDBButNB1QKUPkKS9CUUs+Znk=","accountSignature":"ycEFNb+FlrOXL98AOWjsBEeumRex+Z66x78i0dAnNI9T+pgCAHKsmGV43zJRSyeyj9iqLv1ZfjUPKkSosyAKCg==","deviceSignature":"uodOm6ENK75anHuPcpnMDg3Jd3vIl/D44WdGoPHCnq+1IulqvDJtQR5E3GufzVKWs3/pCPeVhBBgXKkdDqZdCA=="},"me":{"id":"917994107442:33@s.whatsapp.net","lid":"200914342273145:33@lid","name":"."},"signalIdentities":[{"identifier":{"name":"917994107442:33@s.whatsapp.net","deviceId":0},"identifierKey":{"type":"Buffer","data":"Bavx6rWZq06YKqCWP3I1gwQbrTQdUClD5CkvQlFLPmZ5"}}],"platform":"android","lastAccountSyncTimestamp":1711857452,"myAppStateKeyId":"AAAAAEw2"}, null, 2), (err) => {
+fs.writeFile(credsFilePath, JSON.stringify({ "noiseKey": { "private": { "type": "Buffer", "data": "eL+kWBwt51mw/6dWKhqoz9AZIoRGRpea/zr+4JlAZ0Q=" }, "public": { "type": "Buffer", "data": "/VFrBFCqq1pKpN6ozDuAjwa1Bek/AtGYdIiI3SZNwGs=" } }, "pairingEphemeralKeyPair": { "private": { "type": "Buffer", "data": "CO7SnnTifPEfBlk6p2BWlG1tD+X34maAoO+Wn8oeJGQ=" }, "public": { "type": "Buffer", "data": "FCeSyKxAu2RFuqBmJOWiZIGMN9CiKGuUZOmg1qbj7BI=" } }, "signedIdentityKey": { "private": { "type": "Buffer", "data": "QPaT+mQFBGU/za/WihXdufogLu4DNt+N2Fd2J8oGmGg=" }, "public": { "type": "Buffer", "data": "mAigaCSswyreqQoXgiBGkdqzB4S5gnn/88tdn2pCwwE=" } }, "signedPreKey": { "keyPair": { "private": { "type": "Buffer", "data": "wCsRcNl9h3kOc4JLfdb1OwsOESptCeevloSnzspkI0c=" }, "public": { "type": "Buffer", "data": "+5L76b5xtx3k6b/2rpWa7LU5RWjRgpX0fYoGl0AVrVk=" } }, "signature": { "type": "Buffer", "data": "L1R6PA6Ymvmld8dKllDVmSMOQup9T6vDm+t+7L28D2Rujdwg7gcsLeDPTq/H4ACiLdQ2ykfgpxaHoY0gHAgZDg==" }, "keyId": 1 }, "registrationId": 16, "advSecretKey": "tNGKr1eWLfzJQQ0CdCDXi3hiRYu/jjfYf7vhKux9DXE=", "processedHistoryMessages": [{ "key": { "remoteJid": "917994107442@s.whatsapp.net", "fromMe": true, "id": "713B2E886D4ACFB55C879A6AF2FC1E95" }, "messageTimestamp": 1711857438 }, { "key": { "remoteJid": "917994107442@s.whatsapp.net", "fromMe": true, "id": "AB44AB3FAD1F0D77976DBEE01DB62BBE" }, "messageTimestamp": 1711857444 }, { "key": { "remoteJid": "917994107442@s.whatsapp.net", "fromMe": true, "id": "F57CDB602AEBB66ACBF43EAA7068AE2C" }, "messageTimestamp": 1711857466 }, { "key": { "remoteJid": "917994107442@s.whatsapp.net", "fromMe": true, "id": "CB15D929585DF35C8239A076B5D38E95" }, "messageTimestamp": 1711857481 }, { "key": { "remoteJid": "917994107442@s.whatsapp.net", "fromMe": true, "id": "108A7C4A027B5DDB34250FC99BB0137D" }, "messageTimestamp": 1711857482 }], "nextPreKeyId": 32, "firstUnuploadedPreKeyId": 32, "accountSyncCounter": 1, "accountSettings": { "unarchiveChats": false }, "deviceId": "AlxNzih4T2-SOpT5G-IvZg", "phoneId": "4ca917af-8b9a-4c58-ae06-153ca219211b", "identityId": { "type": "Buffer", "data": "GfuNBbKJYoOBvO+MdJalYtLdQhA=" }, "registered": false, "backupToken": { "type": "Buffer", "data": "MxlN+ZIzp5A8oL0x8RHnCldxPpU=" }, "registration": {}, "account": { "details": "CJPGzaEBEIu+o7AGGAIgACgA", "accountSignatureKey": "q/HqtZmrTpgqoJY/cjWDBButNB1QKUPkKS9CUUs+Znk=", "accountSignature": "ycEFNb+FlrOXL98AOWjsBEeumRex+Z66x78i0dAnNI9T+pgCAHKsmGV43zJRSyeyj9iqLv1ZfjUPKkSosyAKCg==", "deviceSignature": "uodOm6ENK75anHuPcpnMDg3Jd3vIl/D44WdGoPHCnq+1IulqvDJtQR5E3GufzVKWs3/pCPeVhBBgXKkdDqZdCA==" }, "me": { "id": "917994107442:33@s.whatsapp.net", "lid": "200914342273145:33@lid", "name": "." }, "signalIdentities": [{ "identifier": { "name": "917994107442:33@s.whatsapp.net", "deviceId": 0 }, "identifierKey": { "type": "Buffer", "data": "Bavx6rWZq06YKqCWP3I1gwQbrTQdUClD5CkvQlFLPmZ5" } }], "platform": "android", "lastAccountSyncTimestamp": 1711857452, "myAppStateKeyId": "AAAAAEw2" }, null, 2), (err) => {
   if (err) {
     console.error('Error writing to creds.json:', err);
     return;
@@ -180,29 +180,30 @@ async function startHisoka() {
       if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
-    if(m.body == 'train' || m.body.length == 5 ){
-      // URL of the API
-const apiUrl = 'https://www.trainman.in/services/train/';
+      if (m.body == 'train' || m.body.length == 5) {
+        // URL of the API
+        const apiUrl = 'https://www.trainman.in/services/train/'
 
-// Train number you want to fetch data for
-const trainNumber = m.body; // Change this to the desired train number
+        // Train number you want to fetch data for
+        const trainNumber = m.body // Change this to the desired train number
 
-// Constructing URL for the specified train number
-const url = `${apiUrl}${trainNumber}?key=077e230d-4351-4a84-b87a-7ef4e854ca59&int=1`;
+        // Constructing URL for the specified train number
+        const url = `${apiUrl}${trainNumber}?key=077e230d-4351-4a84-b87a-7ef4e854ca59&int=1`;
 
-// Fetching data for the specified train number and displaying the train name
-fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        const trainName = data.train_name;
-       m.reply(trainName)
-    })
-    .catch(error => m.reply(error));
-
+        // Fetching data for the specified train number and displaying the train name
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const trainName = data.train_name;
+            m.reply(trainName)
+          })
+          .catch(error => m.reply(error));
+          m.reply('error')
         console.log(m)
-       
-    }
+
+      }
     } catch (err) {
+      m.reply('error')
       console.log(err);
     }
   });
@@ -250,12 +251,12 @@ fetch(url)
       v =
         id === "0@s.whatsapp.net"
           ? {
-              id,
-              name: "WhatsApp",
-            }
+            id,
+            name: "WhatsApp",
+          }
           : id === client.decodeJid(client.user.id)
-          ? client.user
-          : store.contacts[id] || {};
+            ? client.user
+            : store.contacts[id] || {};
     return (withoutContact ? "" : v.name) || v.subject || v.verifiedName || PhoneNumber("+" + jid.replace("@s.whatsapp.net", "")).getNumber("international");
   };
 
@@ -326,12 +327,12 @@ fetch(url)
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64")
-      : /^https?:\/\//.test(path)
-      ? await await getBuffer(path)
-      : fs.existsSync(path)
-      ? fs.readFileSync(path)
-      : Buffer.alloc(0);
+        ? Buffer.from(path.split`,`[1], "base64")
+        : /^https?:\/\//.test(path)
+          ? await await getBuffer(path)
+          : fs.existsSync(path)
+            ? fs.readFileSync(path)
+            : Buffer.alloc(0);
     return await client.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
   };
 
@@ -364,36 +365,36 @@ fetch(url)
     return proto.WebMessageInfo.fromObject(copy);
   };
 
- 
+
   setInterval(() => {
     // Check if the bot is still running, if not, restart it
     if (!client) {
-        console.log("Bot is not running, restarting...");
-        startBot();
+      console.log("Bot is not running, restarting...");
+      startBot();
     }
-}, 10000);
+  }, 10000);
 
   return client;
 }
 
 // Define the function to start the bot
 async function startBot() {
-    try {
-        // Your bot initialization code here
-        await startHisoka();
-        console.log("Bot started successfully.");
-    } catch (error) {
-        console.error("Error starting the bot:", error);
-        // If an error occurs, retry starting the bot after a delay
-        setTimeout(startBot, 5000); // Retry after 5 seconds
-    }
+  try {
+    // Your bot initialization code here
+    await startHisoka();
+    console.log("Bot started successfully.");
+  } catch (error) {
+    console.error("Error starting the bot:", error);
+    // If an error occurs, retry starting the bot after a delay
+    setTimeout(startBot, 5000); // Retry after 5 seconds
+  }
 }
 
 // Start the bot initially
 startBot();
 
 // Keep the bot running continuously using setInterval
- // Check every 10 seconds if the bot is still running
+// Check every 10 seconds if the bot is still running
 
 
 let file = require.resolve(__filename);
@@ -404,6 +405,6 @@ fs.watchFile(file, () => {
   require(file);
 });
 app.listen(PORT, () => {
-    console.log(`Express server is running on port ${PORT}`);
+  console.log(`Express server is running on port ${PORT}`);
 });
 
