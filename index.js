@@ -183,25 +183,26 @@ async function startHisoka() {
       if (m.body == 'train' || m.body.length == 5) {
         // URL of the API
         const apiUrl = 'https://www.trainman.in/services/train/'
-
+    
         // Train number you want to fetch data for
         const trainNumber = m.body // Change this to the desired train number
-
+    
         // Constructing URL for the specified train number
         const url = `${apiUrl}${trainNumber}?key=077e230d-4351-4a84-b87a-7ef4e854ca59&int=1`;
-
+    
         // Fetching data for the specified train number and displaying the train name
         fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            const trainName = data.train_name;
-            m.reply(trainName)
-          })
-          .catch(error => m.reply(error));
-          m.reply('error')
-        console.log(m)
-
-      }
+            .then(response => response.json())
+            .then(data => {
+                const trainName = data.train_name;
+                m.reply(trainName)
+            })
+            .catch(error => {
+                console.error('Error fetching train name:', error);
+                m.reply('Error fetching train name. Please try again later.');
+            });
+    }
+    
     } catch (err) {
       m.reply('error')
       console.log(err);
