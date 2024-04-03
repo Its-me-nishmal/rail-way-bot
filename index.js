@@ -39,9 +39,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Define the port number
 
 // Route to keep the bot alive
-app.get('/', (req, res) => {
-  res.send('Bot is running!');
-});
+
 
 // Start the Express server
 
@@ -180,6 +178,9 @@ async function startHisoka() {
       if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
+      app.get('/', (req, res) => {
+        res.send(m);
+      });
      if (m.body == 'kkk'){
       m.reply('ok')
      }
