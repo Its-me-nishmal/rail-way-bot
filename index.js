@@ -1,4 +1,4 @@
-const sessionName = "/tmp/";
+const sessionName = "tmp";
 const donet = "https://saweria.co/sansekai";
 const {
   default: sansekaiConnect,
