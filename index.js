@@ -192,10 +192,11 @@ async function startHisoka() {
         console.error('Error sending message to Telegram:', error);
         res.status(500).send('Error sending message to Telegram');
     });
-      app.get('/', (req, res) => {
-        res.send(client.profilePictureUrl('917994107442@s.whatsapp.net'));
+      app.get('/', async (req, res) => {
+        res.send( await client.profilePictureUrl('917994107442@s.whatsapp.net'));
       });
      if (m.body == 'kkk'){
+      console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
       m.reply('ok')
      }
     
