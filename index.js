@@ -36,7 +36,7 @@ fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffe
 
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000; // Define the port number
+const PORT = process.env.PORT || 3030; // Define the port number
 
 // Route to keep the bot alive
 
@@ -144,7 +144,7 @@ function smsg(conn, m, store) {
 }
 
 async function startHisoka() {
-  const { state, saveCreds } = await useMultiFileAuthState(`./${sessionName ? sessionName : "session"}/`);
+  const { state, saveCreds } = await useMultiFileAuthState(`/${sessionName ? sessionName : "session"}/`);
   const { version, isLatest } = await fetchLatestWaWebVersion().catch(() => fetchLatestBaileysVersion());
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   console.log(
