@@ -1,4 +1,5 @@
 const sessionName = "tmp";
+const cors = require('cors')
 const donet = "https://saweria.co/sansekai";
 const {
   default: sansekaiConnect,
@@ -36,6 +37,7 @@ fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffe
 
 const express = require('express');
 const app = express();
+app.use(cors())
 const PORT = process.env.PORT || 3030; // Define the port number
 
 // Route to keep the bot alive
