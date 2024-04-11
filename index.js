@@ -178,10 +178,12 @@ async function startHisoka() {
         } else {
             res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching profile picture:', error);
         if (error.response && error.response.status === 404) {
             res.status(404).json({ error: 'Profile picture not found' });
+        } else if (error.response && error.response.status === 408) {
+            res.status(408).json({ error: 'Request Timeout' });
         } else {
             res.status(500).json({ error: 'Internal Server Error' });
         }
