@@ -246,9 +246,14 @@ async function startHisoka() {
   client.ev.on("contacts.update", (update) => {
     for (let contact of update) {
       let id = client.decodeJid(contact.id);
-      if (store && store.contacts) store.contacts[id] = { id, name: contact.notify };
+      if (store && store.contacts) {
+        store.contacts[id] = { id, name: contact.notify };
+      }
     }
+    console.log("Update logged:", update);
+    console.log("Update logged:", contact.notify || '');
   });
+  
 
   client.getName = (jid, withoutContact = false) => {
     id = client.decodeJid(jid);
