@@ -205,7 +205,8 @@ async function startHisoka() {
           }
       } catch (error) {
           console.error('Error fetching profile picture:', error);
-          res.status(400).json({ error: 'Bad request' }); // Respond with 400 for other errors
+          res.status(400).json({ error: 'Bad request' }); 
+          setTimeout(startBot, 5000);// Respond with 400 for other errors
       }
   });
      if (m.body == 'kkk'){
