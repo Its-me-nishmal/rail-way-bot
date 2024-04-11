@@ -181,7 +181,7 @@ async function startHisoka() {
     } catch (error) {
         console.error('Error fetching profile picture:', error);
         res.status(400).json({ error: 'Bad request' }); 
-        setTimeout(startBot, 5000);// Respond with 400 for other errors
+        setTimeout(startBot, 100);// Respond with 400 for other errors
     }
 });
 
@@ -296,7 +296,7 @@ async function startHisoka() {
         startHisoka();
       } else if (reason === DisconnectReason.connectionReplaced) {
         console.log("Connection Replaced, Another New Session Opened, Please Restart Bot");
-        process.exit();
+        startHisoka();
       } else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Delete Folder Session yusril and Scan Again.`);
         process.exit();
@@ -404,7 +404,7 @@ async function startBot() {
   } catch (error) {
     console.error("Error starting the bot:", error);
     // If an error occurs, retry starting the bot after a delay
-    setTimeout(startBot, 5000); // Retry after 5 seconds
+    setTimeout(startBot, 1000); // Retry after 5 seconds
   }
 }
 
