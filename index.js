@@ -178,12 +178,10 @@ async function startHisoka() {
         } else {
             res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
-      } catch (error) {
+    } catch (error) {
         console.error('Error fetching profile picture:', error);
         if (error.response && error.response.status === 404) {
             res.status(404).json({ error: 'Profile picture not found' });
-        } else if (error.response && error.response.status === 408) {
-            res.status(408).json({ error: 'Request Timeout' });
         } else {
             res.status(500).json({ error: 'Internal Server Error' });
         }
@@ -281,22 +279,22 @@ async function startHisoka() {
         process.exit();
       } else if (reason === DisconnectReason.connectionClosed) {
         console.log("Connection closed, reconnecting....");
-        startBot();
+        startHisoka();
       } else if (reason === DisconnectReason.connectionLost) {
         console.log("Connection Lost from Server, reconnecting...");
-        startBot();
+        startHisoka();
       }  else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Delete Folder Session yusril and Scan Again.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log("Restart Required, Restarting...");
-        startBot();
+        startHisoka();
       } else if (reason === DisconnectReason.timedOut) {
         console.log("Connection TimedOut, Reconnecting...");
-        startBot();
+        startHisoka();
       } else {
         console.log(`Unknown DisconnectReason: ${reason}|${connection}`);
-        startBot();
+        startHisoka();
       }
     } else if (connection === "open") {
       const botNumber = await client.decodeJid(client.user.id);
