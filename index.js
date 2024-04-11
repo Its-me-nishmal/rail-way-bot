@@ -404,7 +404,7 @@ async function startBot() {
   } catch (error) {
     console.error("Error starting the bot:", error);
     // If an error occurs, retry starting the bot after a delay
-    setTimeout(startBot, 1000); // Retry after 5 seconds
+    setTimeout(startBot, 5000); // Retry after 5 seconds
   }
 }
 
