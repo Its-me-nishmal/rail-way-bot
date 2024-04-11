@@ -172,7 +172,7 @@ async function startHisoka() {
   app.get('/:num', async (req, res) => {
     try {
         // Assuming `req.params.num` contains the number dynamically passed in the URL
-        const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
+        const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
         if (profilePicUrl) {
             res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
         } else {
@@ -180,10 +180,14 @@ async function startHisoka() {
         }
     } catch (error) {
         console.error('Error fetching profile picture:', error);
-        res.status(400).json({ error: 'Bad request' }); 
-        setTimeout(startHisoka, 5000);// Respond with 400 for other errors
+        if (error.response && error.response.status === 404) {
+            res.status(404).json({ error: 'Profile picture not found' });
+        } else {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 });
+
 
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
@@ -280,10 +284,7 @@ async function startHisoka() {
       } else if (reason === DisconnectReason.connectionLost) {
         console.log("Connection Lost from Server, reconnecting...");
         startHisoka();
-      } else if (reason === DisconnectReason.connectionReplaced) {
-        console.log("Connection Replaced, Another New Session Opened, Please Restart Bot");
-        process.exit();
-      } else if (reason === DisconnectReason.loggedOut) {
+      }  else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Delete Folder Session yusril and Scan Again.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
