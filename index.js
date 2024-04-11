@@ -171,10 +171,10 @@ async function startHisoka() {
   store.bind(client.ev);
   app.get('/:num', async (req, res) => {
     try {
-        const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net');
+        // Assuming `req.params.num` contains the number dynamically passed in the URL
         const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
-        if (profilePicUrl || status) {
-            res.json({ profilePicUrl, status }); // Respond with a JSON object containing the profile picture URL
+        if (profilePicUrl) {
+            res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
         } else {
             res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
