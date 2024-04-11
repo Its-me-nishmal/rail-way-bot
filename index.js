@@ -241,7 +241,6 @@ async function startHisoka() {
       }
     }
     console.log("Update logged:", update);
-    console.log("Update logged:", contact.notify || '');
   });
   
 
