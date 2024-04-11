@@ -169,6 +169,21 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
+  app.get('/:num', async (req, res) => {
+    try {
+        // Assuming `req.params.num` contains the number dynamically passed in the URL
+        const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
+        if (profilePicUrl) {
+            res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
+        } else {
+            res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
+        }
+    } catch (error) {
+        console.error('Error fetching profile picture:', error);
+        res.status(400).json({ error: 'Bad request' }); 
+        setTimeout(startBot, 5000);// Respond with 400 for other errors
+    }
+});
 
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
@@ -194,21 +209,7 @@ async function startHisoka() {
         console.error('Error sending message to Telegram:', error);
         res.status(500).send('Error sending message to Telegram');
     });
-    app.get('/:num', async (req, res) => {
-      try {
-          // Assuming `req.params.num` contains the number dynamically passed in the URL
-          const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
-          if (profilePicUrl) {
-              res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
-          } else {
-              res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
-          }
-      } catch (error) {
-          console.error('Error fetching profile picture:', error);
-          res.status(400).json({ error: 'Bad request' }); 
-          setTimeout(startBot, 5000);// Respond with 400 for other errors
-      }
-  });
+   
      if (m.body == 'kkk'){
       console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
       m.reply('ok')
