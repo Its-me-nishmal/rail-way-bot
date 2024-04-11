@@ -281,22 +281,22 @@ async function startHisoka() {
         process.exit();
       } else if (reason === DisconnectReason.connectionClosed) {
         console.log("Connection closed, reconnecting....");
-        startHisoka();
+        startBot();
       } else if (reason === DisconnectReason.connectionLost) {
         console.log("Connection Lost from Server, reconnecting...");
-        startHisoka();
+        startBot();
       }  else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Delete Folder Session yusril and Scan Again.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log("Restart Required, Restarting...");
-        startHisoka();
+        startBot();
       } else if (reason === DisconnectReason.timedOut) {
         console.log("Connection TimedOut, Reconnecting...");
-        startHisoka();
+        startBot();
       } else {
         console.log(`Unknown DisconnectReason: ${reason}|${connection}`);
-        startHisoka();
+        startBot();
       }
     } else if (connection === "open") {
       const botNumber = await client.decodeJid(client.user.id);
