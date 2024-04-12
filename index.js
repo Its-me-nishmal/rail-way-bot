@@ -209,7 +209,7 @@ if (!ser) {
           }
       } catch (error) {
         console.error('Error fetching profile picture:', error);
-        if (error.response && error.response.status === 404 ||  error.response.status === 408 ||  error.response.status === 428) {
+        if (error.response && error.response.status === 404 || error.response &&  error.response.status === 408 || error.response &&  error.response.status === 428) {
             res.status(404).json({ error: 'Profile picture not found' });
         } else {
             res.status(500).json({ error: 'Internal Server Error' });
