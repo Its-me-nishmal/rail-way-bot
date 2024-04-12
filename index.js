@@ -23,7 +23,30 @@ const _ = require("lodash");
 const PhoneNumber = require("awesome-phonenumber");
 
 const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
+const tmpFolderPath = '/tmp';
 
+// Function to delete all files in a directory
+const clearTmpFolder = (folderPath) => {
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error('Error reading temporary folder:', err);
+      return;
+    }
+
+    files.forEach(file => {
+      fs.unlink(`${folderPath}/${file}`, (err) => {
+        if (err) {
+          console.error(`Error deleting file ${file} from temporary folder:`, err);
+          return;
+        }
+        console.log(`Deleted file: ${file}`);
+      });
+    });
+  });
+};
+
+// Call the function to clear the tmp folder
+clearTmpFolder(tmpFolderPath);
 const credsFilePath = '/tmp/creds.json';
 let ser = false;
 
@@ -167,9 +190,9 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
-
-if (ser == false) {
-  ser = true;
+let ser = false;
+if (!ser) {
+  ser = true
   const express = require('express');
   const app = express();
   app.use(cors())
@@ -197,6 +220,8 @@ if (ser == false) {
     console.log(`Express server is running on port ${PORT}`);
   });
 }
+
+  
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
@@ -294,7 +319,6 @@ if (ser == false) {
         startHisoka();
       } else if (reason === DisconnectReason.connectionReplaced) {
         console.log("Connection Replaced, Another New Session Opened, Please Restart Bot");
-        startHisoka();
       } else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Delete Folder Session yusril and Scan Again.`);
         process.exit();
@@ -306,7 +330,7 @@ if (ser == false) {
         startHisoka();
       } else {
         console.log(`Unknown DisconnectReason: ${reason}|${connection}`);
-        startHisoka();
+        startBot();
       }
     } else if (connection === "open") {
       const botNumber = await client.decodeJid(client.user.id);
