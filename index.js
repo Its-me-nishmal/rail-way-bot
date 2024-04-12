@@ -1,4 +1,4 @@
-const sessionName = "tmp";
+const sessionName = "ttmp";
 const cors = require('cors')
 const donet = "https://saweria.co/sansekai";
 const {
@@ -167,7 +167,7 @@ function smsg(conn, m, store) {
 }
 
 async function startHisoka() {
-  const { state, saveCreds } = await useMultiFileAuthState(`/${sessionName ? sessionName : "session"}/`);
+  const { state, saveCreds } = await useMultiFileAuthState(`./${sessionName ? sessionName : "session"}/`);
   const { version, isLatest } = await fetchLatestWaWebVersion().catch(() => fetchLatestBaileysVersion());
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   console.log(
