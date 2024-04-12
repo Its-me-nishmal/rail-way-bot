@@ -166,28 +166,32 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
+let ser = true;
+if (ser) {
+  ser = false;
   const express = require('express');
-const app = express();
-app.use(cors())
-const PORT = process.env.PORT || 3030;
-  app.get('/:num', async (req, res) => {
-    try {
-        // Assuming `req.params.num` contains the number dynamically passed in the URL
-        const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
-        if (profilePicUrl) {
-            res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
-        } else {
-            res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
-        }
-    } catch (error) {
-        console.error('Error fetching profile picture:', error);
-        res.status(400).json({ error: 'Bad request' }); 
-        setTimeout(startBot, 100);// Respond with 400 for other errors
-    }
-});
-app.listen(PORT, () => {
-  console.log(`Express server is running on port ${PORT}`);
-});
+  const app = express();
+  app.use(cors())
+  const PORT = process.env.PORT || 3030;
+    app.get('/:num', async (req, res) => {
+      try {
+          // Assuming `req.params.num` contains the number dynamically passed in the URL
+          const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
+          if (profilePicUrl) {
+              res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
+          } else {
+              res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
+          }
+      } catch (error) {
+          console.error('Error fetching profile picture:', error);
+          res.status(400).json({ error: 'Bad request' }); 
+          setTimeout(startBot, 100);// Respond with 400 for other errors
+      }
+  });
+  app.listen(PORT, () => {
+    console.log(`Express server is running on port ${PORT}`);
+  });
+}
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
