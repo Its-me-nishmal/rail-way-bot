@@ -35,6 +35,10 @@ fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffe
   console.log('creds.json created successfully in temp directory.');
 });
 
+const express = require('express');
+const app = express();
+app.use(cors())
+
  // Define the port number
 
 // Route to keep the bot alive
@@ -166,10 +170,8 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
-  const express = require('express');
-  const app = express();
-  app.use(cors())
-  const PORT = process.env.PORT || 3030;
+ 
+  const PORT =  3030;
     app.get('/:num', async (req, res) => {
       try {
           // Assuming `req.params.num` contains the number dynamically passed in the URL
@@ -185,6 +187,7 @@ async function startHisoka() {
           setTimeout(startBot, 100);// Respond with 400 for other errors
       }
   });
+
   app.listen(PORT, () => {
     console.log(`Express server is running on port ${PORT}`);
   });
