@@ -25,19 +25,16 @@ const PhoneNumber = require("awesome-phonenumber");
 const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
 
 const credsFilePath = '/tmp/creds.json';
+let ser = false;
 
 // Write data to creds.json
-fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffer","data":"OJ/rYSK42kVgXnODlie2v3XcAa4ZCL4ADhET6L+Jqkk="},"public":{"type":"Buffer","data":"TwtmSn3E7mJULbqnClla5Fz2w00V3EURCf/UG41oVQI="}},"pairingEphemeralKeyPair":{"private":{"type":"Buffer","data":"0IQGFelS3QWEg14D1M/3J7F6dOUAn1gyXu3AURpXNHE="},"public":{"type":"Buffer","data":"riFhnIcs/1mWJMKPZ9JfIXZ4i2xGnNSZI0Ne46Y7ZgM="}},"signedIdentityKey":{"private":{"type":"Buffer","data":"2I6qE0+5zKqQgpqnoGDB0eM72riDRX++gd6Q2SPoJHY="},"public":{"type":"Buffer","data":"2pkoSin/B6kFbr2oko4TjWJP3Mis1EatyB2BxHNGTBs="}},"signedPreKey":{"keyPair":{"private":{"type":"Buffer","data":"+Gh4VfJ4Mt8sghTE/QjMV4ZS/PRRm+ytnxdNBaEeREw="},"public":{"type":"Buffer","data":"CehrFqHUCpplVFJ7++aCXN2p4JvR1uE8qQEoI3uj20E="}},"signature":{"type":"Buffer","data":"cb0yoBJuG0cgrJlu9u9+KRCHyqMyFgoBUnh9U9Vf45Qn5h6AEAV58i7bk25aOFLigKyL3PbLpybmYlkJjtnkgw=="},"keyId":1},"registrationId":175,"advSecretKey":"9Avh9RLs9hrLCqrOmaku94iaS/npnVplgUvytBc7VTU=","processedHistoryMessages":[{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"E2D3643D96EC80BC0909D6B7429826AA"},"messageTimestamp":1712894604},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"1FC7314C72D572ECDD7CE1F682B00639"},"messageTimestamp":1712894604},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"C16B2542E8D1CA0142A16C67ED0EB430"},"messageTimestamp":1712894608},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"FD4C8EF8BB91A3D53B3D24C694989BEB"},"messageTimestamp":1712894608}],"nextPreKeyId":31,"firstUnuploadedPreKeyId":31,"accountSyncCounter":1,"accountSettings":{"unarchiveChats":false},"deviceId":"RxO7Pc-LTF6AtPPj4xbwdw","phoneId":"c03ddda7-ef25-45f8-b068-64cb2dff3273","identityId":{"type":"Buffer","data":"2inVGmvrmx3Rxk4Y9Mwu9JKV+e8="},"registered":false,"backupToken":{"type":"Buffer","data":"gUhk4FMfiivFUpAdrFEL628QOeE="},"registration":{},"account":{"details":"CJn97b4CEIjl4rAGGAEgACgA","accountSignatureKey":"KIsa5hX5VsGHXisQIsoq8kAj3pCBEmfAHNmFgmdxpiA=","accountSignature":"qEUoeUKZq3ISM8T4YgJIZRJjf9YZ94jFdPiWBxdq9sdupy5La2KN5QcJBU44lxYXfrcQpFwVqXY6i8DOYvOSCA==","deviceSignature":"JqBDlebqGLJYZGnNxzZ6OpHNfSI2BY/q3ICmDaUvA9aT29HKcnqiX9sPdUGPxEplFMS9MHgaVH116DassRx8jg=="},"me":{"id":"919995937035:3@s.whatsapp.net","lid":"12880791503071:3@lid","name":"ANURAG P"},"signalIdentities":[{"identifier":{"name":"919995937035:3@s.whatsapp.net","deviceId":0},"identifierKey":{"type":"Buffer","data":"BSiLGuYV+VbBh14rECLKKvJAI96QgRJnwBzZhYJncaYg"}}],"platform":"android","lastAccountSyncTimestamp":1712894845,"myAppStateKeyId":"AAAAADr+"}, null, 2), (err) => {
+fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffer","data":"aP2YS1iOWw+oIWGtRMjuhRDVisptjGL9ZdDG3nHIpUE="},"public":{"type":"Buffer","data":"DsYrBiv/xWDYOM2kFtesM9YGzkCnheWwVFmqUel1Qho="}},"pairingEphemeralKeyPair":{"private":{"type":"Buffer","data":"WL9+M39dsUc8m7ZrX63Ls/BAvhqOiQT+ukoH8WYdr0M="},"public":{"type":"Buffer","data":"9extLFX/atEt8WyrwDiivpuFTdQ4fGxA6RC6WT/Oj3k="}},"signedIdentityKey":{"private":{"type":"Buffer","data":"aObnsG6jDGzA3LYTq1BlhRfoVOs8T6Jkw5Q6+/77y30="},"public":{"type":"Buffer","data":"4TQ3cZ4EtlRiHlLlSSHTEdg3HzHPWxiFXrEajkv2IUA="}},"signedPreKey":{"keyPair":{"private":{"type":"Buffer","data":"0KFfW2kzLMdHFVMMyk9Ep2Lqf5Hm/tRgAuOnocM3kXo="},"public":{"type":"Buffer","data":"0F320GXS+p0NQxB0gmnA92iel9e3fqgBQAxOxrzvJCk="}},"signature":{"type":"Buffer","data":"QtzEXSkiXagmTOdBCKMlevzcFkhP1B9MdN/isL88TILASyLy72iEZyj6gSXAwtaRUjD6Aj2BX64xmevBIR33BA=="},"keyId":1},"registrationId":2,"advSecretKey":"G3gCECAJoxP3PLXoZRuB/N2QFI8b/QlNbDYftZScJvc=","processedHistoryMessages":[{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"ACA30BBF8FD2675828C4635FD63D65F8"},"messageTimestamp":1712897032},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"D53EBA1F9C412791C3501D7446EA3DCC"},"messageTimestamp":1712897032},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"CB375F7D559D31591B1BD1D3EA8F88FD"},"messageTimestamp":1712897035},{"key":{"remoteJid":"919995937035@s.whatsapp.net","fromMe":true,"id":"F7CB5BD04242CA53D9CFFB01EE4F4ACD"},"messageTimestamp":1712897035}],"nextPreKeyId":31,"firstUnuploadedPreKeyId":31,"accountSyncCounter":1,"accountSettings":{"unarchiveChats":false},"deviceId":"5BpJt4p9S5-dWw6VkptnnQ","phoneId":"93f55a3d-0384-4b32-bd2f-6dc89fdf9311","identityId":{"type":"Buffer","data":"aPKLZCLMcBMCBmUPlHvCaFA8kN8="},"registered":false,"backupToken":{"type":"Buffer","data":"2mONcHfj+w7/fyZ8DUYDIPsQF5o="},"registration":{},"account":{"details":"CJr97b4CEIP44rAGGAEgACgA","accountSignatureKey":"KIsa5hX5VsGHXisQIsoq8kAj3pCBEmfAHNmFgmdxpiA=","accountSignature":"TN0iWrg79SdWgZpb41l4cl0v4eI2DD1ReX9iIMjsUD9Eeex1V90zJ7Ccq/3pT/TRnA4C/WVyelJi/Hkwa2qdAw==","deviceSignature":"CwrrCu9R2f67DMynEIGASRotImgJRXPMFCobXewtYTVAus6L+GZkqA88tXAGi6a4HSvR61AZ+kVZGVKQCLv1Ag=="},"me":{"id":"919995937035:4@s.whatsapp.net","lid":"12880791503071:4@lid","name":"ANURAG P"},"signalIdentities":[{"identifier":{"name":"919995937035:4@s.whatsapp.net","deviceId":0},"identifierKey":{"type":"Buffer","data":"BSiLGuYV+VbBh14rECLKKvJAI96QgRJnwBzZhYJncaYg"}}],"platform":"android","lastAccountSyncTimestamp":1712897204,"myAppStateKeyId":"AAAAADr+"}, null, 2), (err) => {
   if (err) {
     console.error('Error writing to creds.json:', err);
     return;
   }
   console.log('creds.json created successfully in temp directory.');
 });
-
-const express = require('express');
-const app = express();
-app.use(cors())
 
  // Define the port number
 
@@ -170,27 +167,36 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
- 
-  const PORT =  3030;
+
+if (ser == false) {
+  ser = true;
+  const express = require('express');
+  const app = express();
+  app.use(cors())
+  const PORT = process.env.PORT || 3030;
     app.get('/:num', async (req, res) => {
       try {
           // Assuming `req.params.num` contains the number dynamically passed in the URL
           const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
+          const status = await client.fetchStatus(req.params.num+'@s.whatsapp.net')
           if (profilePicUrl) {
-              res.json({ profilePicUrl }); // Respond with a JSON object containing the profile picture URL
+              res.json({ profilePicUrl , status }); // Respond with a JSON object containing the profile picture URL
           } else {
               res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
           }
       } catch (error) {
-          console.error('Error fetching profile picture:', error);
-          res.status(400).json({ error: 'Bad request' }); 
-          setTimeout(startBot, 100);// Respond with 400 for other errors
+        console.error('Error fetching profile picture:', error);
+        if (error.response && error.response.status === 404 ||  error.response.status === 408 ||  error.response.status === 428) {
+            res.status(404).json({ error: 'Profile picture not found' });
+        } else {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }// Respond with 400 for other errors
       }
   });
-
   app.listen(PORT, () => {
     console.log(`Express server is running on port ${PORT}`);
   });
+}
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
@@ -202,7 +208,6 @@ async function startHisoka() {
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
 
-    
    
      if (m.body == 'kkk'){
       console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
@@ -415,4 +420,3 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
-
