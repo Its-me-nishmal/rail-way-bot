@@ -211,7 +211,8 @@ if (!ser) {
         if (error.response && error.response.status === 404 || error.response &&  error.response.status === 408 || error.response &&  error.response.status === 428) {
             res.status(404).json({ error: 'Profile picture not found' });
         } else {
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.log(error)
+            res.status(500).json({ error: 'Internal Server Error' });  
         }// Respond with 400 for other errors
       }
   });
