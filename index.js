@@ -208,12 +208,13 @@ if (!ser) {
               res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
           }
       } catch (error) {
-        if (error.response && error.response.status === 404 || error.response &&  error.response.status === 408 || error.response &&  error.response.status === 428) {
-            res.status(404).json({ error: 'Profile picture not found' });
+        if ( error.data === 408 || error.data === 428) {
+            res.status(200).json({ error: 'Profile picture not found' });
+        } else if (error.data == 404) {
+            res.status(200).json({ error: 'Contact Only permission to view the dp' });  
         } else {
-            console.log(error, error.data)
-            res.status(500).json({ error: 'Internal Server Error' });  
-        }// Respond with 400 for other errors
+          res.status(500).json({ error: 'Internal Server Error' });  
+        }
       }
   });
   app.listen(PORT, () => {
