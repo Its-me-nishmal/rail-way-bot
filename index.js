@@ -208,11 +208,13 @@ if (!ser) {
               res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
           }
       } catch (error) {
-        if ( error.data === 404 || error.data === 408) {
+        if ( error.data === 404 || error.data === 408 ) {
             res.status(200).json({ error: 'Profile picture not found' });
-        } else if (error.data == 400) {
+        } else if  (error.data == 401) {
             res.status(200).json({ error: 'Contact Only permission to view the dp' });  
-        } else {
+        }  else if  (error.data == 400) {
+          res.status(200).json({ error: 'Whatsapp Accont not found' });  
+      } else {
           res.status(500).json({ error: 'Internal Server Error' });  
         }
       }
