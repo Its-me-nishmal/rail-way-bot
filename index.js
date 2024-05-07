@@ -208,7 +208,6 @@ if (!ser) {
               res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
           }
       } catch (error) {
-        console.error('Error fetching profile picture:', error);
         if (error.response && error.response.status === 404 || error.response &&  error.response.status === 408 || error.response &&  error.response.status === 428) {
             res.status(404).json({ error: 'Profile picture not found' });
         } else {
@@ -267,15 +266,7 @@ if (!ser) {
     } else return jid;
   };
 
-  client.ev.on("contacts.update", (update) => {
-    for (let contact of update) {
-      let id = client.decodeJid(contact.id);
-      if (store && store.contacts) {
-        store.contacts[id] = { id, name: contact.notify };
-      }
-    }
-    console.log("Update logged:", update);
-  });
+
   
 
   client.getName = (jid, withoutContact = false) => {
@@ -409,7 +400,6 @@ if (!ser) {
   setInterval(() => {
     // Check if the bot is still running, if not, restart it
     if (!client) {
-      console.log("Bot is not running, restarting...");
       startBot();
     }
   }, 10000);
@@ -424,7 +414,6 @@ async function startBot() {
     await startHisoka();
     console.log("Bot started successfully.");
   } catch (error) {
-    console.error("Error starting the bot:", error);
     // If an error occurs, retry starting the bot after a delay
     setTimeout(startBot, 1000); // Retry after 5 seconds
   }
