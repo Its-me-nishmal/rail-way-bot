@@ -203,7 +203,10 @@ async function startHisoka() {
       // Timeout function
       const timeoutFunction = async () => {
         timeoutReached = true;
-        res.status(200).json({ error: 'Request timeout or not found the dp' });
+        res.status(200).json({ error: 'Request timeout or not found the dp',status:{
+          "status": "",
+          "setAt": "2023-04-21T07:54:26.000Z"
+          } });
     };
 
     const timeout = setTimeout(timeoutFunction, 2000);
