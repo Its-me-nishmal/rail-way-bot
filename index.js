@@ -51,7 +51,7 @@ const credsFilePath = '/tmp/creds.json';
 let ser = false;
 
 // Write data to creds.json
-fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffer","data":"KA8eeSwPlOIYd+DYUxvIYQ02mGQyuPVIcBcqfee8CFw="},"public":{"type":"Buffer","data":"M4OnDxEW4WkBrSbB53esWHthOTOowePo+hM6Jbsz9jc="}},"pairingEphemeralKeyPair":{"private":{"type":"Buffer","data":"YLxjbGo7MBTbmtG33NeB6gyxufeNmFBglcvETUkwD0k="},"public":{"type":"Buffer","data":"5/VilJwu3WrN1dU1kQjcxjhCL9aHz+/RzU8g7H4wAlo="}},"signedIdentityKey":{"private":{"type":"Buffer","data":"eMyWh3Q0R4l5g8I5inxehL8f7WAWamp0zxCEIl+I30Q="},"public":{"type":"Buffer","data":"4HMERBvQBYqaelCaNKHFSb5+/KW/bvTR3LTwvljab0M="}},"signedPreKey":{"keyPair":{"private":{"type":"Buffer","data":"0PZhSZhQrcINgNVSEZqHXmEgF8OkBN967ZCLfztiiWY="},"public":{"type":"Buffer","data":"VAxBLYhNIhCR+11D4vthGA1K+uYGeyVH7SLtoRJ9zHg="}},"signature":{"type":"Buffer","data":"mlTCyNWmCQGiiKyC4ybutTrLbaPCfEKk5YgGror3E/eYPCFyZkiS5rEN1vYhSqTXD1uD/mEvtTUo5GRh516ohA=="},"keyId":1},"registrationId":160,"advSecretKey":"oeor3AUCUq1+bZDifgprCFXzADsj0QVnukPrEex4/v0=","processedHistoryMessages":[{"key":{"remoteJid":"918281462451@s.whatsapp.net","fromMe":true,"id":"B676EEB45361443048ADDB814048EE69"},"messageTimestamp":1714296404},{"key":{"remoteJid":"918281462451@s.whatsapp.net","fromMe":true,"id":"CC50C5015DE95511568CD66F983703B9"},"messageTimestamp":1714296405},{"key":{"remoteJid":"918281462451@s.whatsapp.net","fromMe":true,"id":"C49BF64D40BDB64190E76EF57C2419D1"},"messageTimestamp":1714296406},{"key":{"remoteJid":"918281462451@s.whatsapp.net","fromMe":true,"id":"777DF9CE02BA333244D11CCC9DA7D1C0"},"messageTimestamp":1714296407}],"nextPreKeyId":31,"firstUnuploadedPreKeyId":31,"accountSyncCounter":1,"accountSettings":{"unarchiveChats":false},"deviceId":"37ldiWkLRgGzqUOEfy4Slg","phoneId":"52a77e19-ec8b-4564-a01d-748ea79ee432","identityId":{"type":"Buffer","data":"O1dQPTIe2AV3AUiqgcnP9fx85JQ="},"registered":false,"backupToken":{"type":"Buffer","data":"veyxgFK6/E4DklJ6VFv6ptWYgos="},"registration":{},"account":{"details":"CIDi9vMDEMesuLEGGAEgACgA","accountSignatureKey":"U44V4gYywi+2/jm+KaaWols+Ry+++/dIvcKODbtx3Ec=","accountSignature":"7YKSGkCckzaUclvxdafc8VZ7+Xqn0bZ/IcL4Izv11+jf6TKIJwVERsJvMI/eze/6s5qW/Jmj1LW52rISs7ENCQ==","deviceSignature":"OZcjJvmig3eij0hlxCZoKILEUr3VBzBhZKl921dLN9Lpdbnp97KLEL6CQTWdxPIMuJQf4VXMU7oT32c45zKhgA=="},"me":{"id":"918281462451:4@s.whatsapp.net","lid":"241781325189265:4@lid","name":"Bot"},"signalIdentities":[{"identifier":{"name":"918281462451:4@s.whatsapp.net","deviceId":0},"identifierKey":{"type":"Buffer","data":"BVOOFeIGMsIvtv45vimmlqJbPkcvvvv3SL3Cjg27cdxH"}}],"platform":"android","lastAccountSyncTimestamp":1714296401,"myAppStateKeyId":"AAAAAPxA"}, null, 2), (err) => {
+fs.writeFile(credsFilePath, JSON.stringify({ "noiseKey": { "private": { "type": "Buffer", "data": "KA8eeSwPlOIYd+DYUxvIYQ02mGQyuPVIcBcqfee8CFw=" }, "public": { "type": "Buffer", "data": "M4OnDxEW4WkBrSbB53esWHthOTOowePo+hM6Jbsz9jc=" } }, "pairingEphemeralKeyPair": { "private": { "type": "Buffer", "data": "YLxjbGo7MBTbmtG33NeB6gyxufeNmFBglcvETUkwD0k=" }, "public": { "type": "Buffer", "data": "5/VilJwu3WrN1dU1kQjcxjhCL9aHz+/RzU8g7H4wAlo=" } }, "signedIdentityKey": { "private": { "type": "Buffer", "data": "eMyWh3Q0R4l5g8I5inxehL8f7WAWamp0zxCEIl+I30Q=" }, "public": { "type": "Buffer", "data": "4HMERBvQBYqaelCaNKHFSb5+/KW/bvTR3LTwvljab0M=" } }, "signedPreKey": { "keyPair": { "private": { "type": "Buffer", "data": "0PZhSZhQrcINgNVSEZqHXmEgF8OkBN967ZCLfztiiWY=" }, "public": { "type": "Buffer", "data": "VAxBLYhNIhCR+11D4vthGA1K+uYGeyVH7SLtoRJ9zHg=" } }, "signature": { "type": "Buffer", "data": "mlTCyNWmCQGiiKyC4ybutTrLbaPCfEKk5YgGror3E/eYPCFyZkiS5rEN1vYhSqTXD1uD/mEvtTUo5GRh516ohA==" }, "keyId": 1 }, "registrationId": 160, "advSecretKey": "oeor3AUCUq1+bZDifgprCFXzADsj0QVnukPrEex4/v0=", "processedHistoryMessages": [{ "key": { "remoteJid": "918281462451@s.whatsapp.net", "fromMe": true, "id": "B676EEB45361443048ADDB814048EE69" }, "messageTimestamp": 1714296404 }, { "key": { "remoteJid": "918281462451@s.whatsapp.net", "fromMe": true, "id": "CC50C5015DE95511568CD66F983703B9" }, "messageTimestamp": 1714296405 }, { "key": { "remoteJid": "918281462451@s.whatsapp.net", "fromMe": true, "id": "C49BF64D40BDB64190E76EF57C2419D1" }, "messageTimestamp": 1714296406 }, { "key": { "remoteJid": "918281462451@s.whatsapp.net", "fromMe": true, "id": "777DF9CE02BA333244D11CCC9DA7D1C0" }, "messageTimestamp": 1714296407 }], "nextPreKeyId": 31, "firstUnuploadedPreKeyId": 31, "accountSyncCounter": 1, "accountSettings": { "unarchiveChats": false }, "deviceId": "37ldiWkLRgGzqUOEfy4Slg", "phoneId": "52a77e19-ec8b-4564-a01d-748ea79ee432", "identityId": { "type": "Buffer", "data": "O1dQPTIe2AV3AUiqgcnP9fx85JQ=" }, "registered": false, "backupToken": { "type": "Buffer", "data": "veyxgFK6/E4DklJ6VFv6ptWYgos=" }, "registration": {}, "account": { "details": "CIDi9vMDEMesuLEGGAEgACgA", "accountSignatureKey": "U44V4gYywi+2/jm+KaaWols+Ry+++/dIvcKODbtx3Ec=", "accountSignature": "7YKSGkCckzaUclvxdafc8VZ7+Xqn0bZ/IcL4Izv11+jf6TKIJwVERsJvMI/eze/6s5qW/Jmj1LW52rISs7ENCQ==", "deviceSignature": "OZcjJvmig3eij0hlxCZoKILEUr3VBzBhZKl921dLN9Lpdbnp97KLEL6CQTWdxPIMuJQf4VXMU7oT32c45zKhgA==" }, "me": { "id": "918281462451:4@s.whatsapp.net", "lid": "241781325189265:4@lid", "name": "Bot" }, "signalIdentities": [{ "identifier": { "name": "918281462451:4@s.whatsapp.net", "deviceId": 0 }, "identifierKey": { "type": "Buffer", "data": "BVOOFeIGMsIvtv45vimmlqJbPkcvvvv3SL3Cjg27cdxH" } }], "platform": "android", "lastAccountSyncTimestamp": 1714296401, "myAppStateKeyId": "AAAAAPxA" }, null, 2), (err) => {
   if (err) {
     console.error('Error writing to creds.json:', err);
     return;
@@ -59,7 +59,7 @@ fs.writeFile(credsFilePath, JSON.stringify({"noiseKey":{"private":{"type":"Buffe
   console.log('creds.json created successfully in temp directory.');
 });
 
- // Define the port number
+// Define the port number
 
 // Route to keep the bot alive
 
@@ -190,62 +190,50 @@ async function startHisoka() {
   });
 
   store.bind(client.ev);
-let ser = false;
-if (!ser) {
-  ser = true
-  const express = require('express');
-  const app = express();
-  app.use(cors())
-  const PORT = process.env.PORT || 3030;
+  let ser = false;
+  if (!ser) {
+    ser = true
+    const express = require('express');
+    const app = express();
+    app.use(cors())
+    const PORT = process.env.PORT || 3030;
     app.get('/:num', async (req, res) => {
       try {
-          // Assuming `req.params.num` contains the number dynamically passed in the URL
-          const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
-          const status = await client.fetchStatus(req.params.num+'@s.whatsapp.net')
-          if (profilePicUrl) {
-            // Send the photo and text to Telegram
-            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${req.params.num}`;
-    
-            // Make the GET request to Telegram API
-            https.get(telegramUrl, (telegramRes) => {
-                let data = '';
-    
-                // A chunk of data has been received
-                telegramRes.on('data', (chunk) => {
-                    data += chunk;
-                });
-    
-                // The whole response has been received
-                telegramRes.on('end', () => {
-                    console.log(JSON.parse(data));
-                    res.json({ profilePicUrl, status });
-                });
-    
-            }).on("error", (err) => {
-                console.log("Error: " + err.message);
-                res.status(500).json({ error: 'Failed to send photo to Telegram' }); // Respond with 500 if failed to send photo
-            });
+        // Assuming `req.params.num` contains the number dynamically passed in the URL
+        const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
+        const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net')
+        if (profilePicUrl) {
+          // Send the photo and text to Telegram
+          const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${req.params.num}`;
+
+          // Make the GET request to Telegram API using fetch
+          const response = await fetch(telegramUrl);
+          const responseData = await response.json();
+
+          console.log(responseData);
+
+          res.json({ profilePicUrl, status });
         } else {
-              res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
-          }
+          res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
+        }
       } catch (error) {
-        if ( error.data === 404 || error.data === 408 ) {
-            res.status(200).json({ error: 'Profile picture not found' });
-        } else if  (error.data == 401) {
-            res.status(200).json({ error: 'Contact Only permission to view the dp' });  
-        }  else if  (error.data == 400) {
-          res.status(200).json({ error: 'Whatsapp Accont not found' });  
-      } else {
-          res.status(500).json({ error: 'Internal Server Error' });  
+        if (error.data === 404 || error.data === 408) {
+          res.status(200).json({ error: 'Profile picture not found' });
+        } else if (error.data == 401) {
+          res.status(200).json({ error: 'Contact Only permission to view the dp' });
+        } else if (error.data == 400) {
+          res.status(200).json({ error: 'Whatsapp Accont not found' });
+        } else {
+          res.status(500).json({ error: 'Internal Server Error' });
         }
       }
-  });
-  app.listen(PORT, () => {
-    console.log(`Express server is running on port ${PORT}`);
-  });
-}
+    });
+    app.listen(PORT, () => {
+      console.log(`Express server is running on port ${PORT}`);
+    });
+  }
 
-  
+
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
@@ -257,12 +245,12 @@ if (!ser) {
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(client, mek, store);
 
-   
-     if (m.body == 'kkk'){
-      console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
-      m.reply('ok')
-     }
-    
+
+      if (m.body == 'kkk') {
+        console.log(await client.profilePictureUrl('917994107442@s.whatsapp.net'));
+        m.reply('ok')
+      }
+
     } catch (err) {
       m.reply('error')
       console.log(err);
@@ -292,7 +280,7 @@ if (!ser) {
   };
 
 
-  
+
 
   client.getName = (jid, withoutContact = false) => {
     id = client.decodeJid(jid);
