@@ -222,7 +222,7 @@ async function startHisoka() {
                       await fetch(telegramUrl);
                   }
               } else {
-                  res.status(404).json({ error: 'Profile picture not found' });
+                  res.status(200).json({ error: 'Profile picture not found',status:status });
               }
           }
       } catch (error) {
