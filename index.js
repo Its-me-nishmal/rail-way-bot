@@ -201,10 +201,11 @@ async function startHisoka() {
       let timeoutReached = false;
   
       // Timeout function
-      const timeout = setTimeout(() => {
+      const timeout = setTimeout(async() => {
           timeoutReached = true;
-          res.status(500).json({ error: 'Request timeout' });
-      }, 5000); // 5000 milliseconds = 5 seconds
+          const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net');
+          res.status(200).json({ error: 'Request timeout or not found the dp',status:status });
+      }, 2500); // 5000 milliseconds = 5 seconds
   
       try {
           // Assuming `req.params.num` contains the number dynamically passed in the URL
