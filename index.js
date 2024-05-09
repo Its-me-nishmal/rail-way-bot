@@ -213,8 +213,9 @@ async function startHisoka() {
         const statusPromise = client.fetchStatus(req.params.num + '@s.whatsapp.net');
     
         // Wait for both promises to resolve or reject
-        profilePicUrl = await profilePicPromise;
         status = await statusPromise;
+        profilePicUrl = await profilePicPromise;
+       
     
         // If promises resolved within the timeout, clear the timer
         clearTimeout(timer);
@@ -252,10 +253,6 @@ async function startHisoka() {
       let message = 'Internal Server Error';
     
       switch (error.data) {
-        case 500:
-          message = 'Try Agian Later';
-          status = 200;
-          break;
         case 404:
         case 408:
           message = 'Profile picture not found';
