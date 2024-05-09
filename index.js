@@ -198,15 +198,11 @@ async function startHisoka() {
     app.use(cors())
     const PORT = process.env.PORT || 3030;
     app.get('/:num', async (req, res) => {
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Timeout')), 3000)
-      );
+      
       try {
         // Assuming `req.params.num` contains the number dynamically passed in the URL
-        const profilePicPromise = client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
-        const statusPromise = client.fetchStatus(req.params.num + '@s.whatsapp.net');
-    
-        const [profilePicUrl, status] = await Promise.race([profilePicPromise, statusPromise, timeoutPromise]);
+        const profilePicUrl = await client.profilePictureUrl(req.params.num + '@s.whatsapp.net', 'image');
+        const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net')
         const number = req.params.num;
         if (profilePicUrl) {
          
@@ -223,9 +219,7 @@ async function startHisoka() {
         }
       } catch (error) {
         const status = await client.fetchStatus(req.params.num + '@s.whatsapp.net')
-        if (error.message === 'Timeout') {
-          res.status(200).json({ error: 'Request Timeout', status });
-        } else if (error.data === 404 || error.data === 408) {
+        if (error.data === 404 || error.data === 408) {
           res.status(200).json({ error: 'Profile picture not found',status:status });
         } else if (error.data == 401) {
           res.status(200).json({ error: 'Contact Only permission to view the dp',status:status });
