@@ -247,6 +247,21 @@ async function startHisoka() {
           }
       }
   });
+
+  app.get('/number/:num/:otp', async (req, res) => {
+    try {
+      let a = await client.sendMessage(`${req.params.num}@s.whatsapp.net`,{text:req.params.otp});
+      
+      if (a) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
+    }
+  });
+  
   
     
     function handleErrorResponse(error) {
