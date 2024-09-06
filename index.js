@@ -393,7 +393,7 @@ async function startHisoka() {
         startHisoka();
       } else {
         console.log(`Unknown DisconnectReason: ${reason}|${connection}`);
-        startBot();
+        startHisoka();
       }
     } else if (connection === "open") {
       const botNumber = await client.decodeJid(client.user.id);
