@@ -1,24 +1,42 @@
-2024/09/30-06:32:01.117 6f0d Reusing MANIFEST /workspaces/rail-way-bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/09/30-06:32:01.118 6f0d Recovering log #1148
-2024/09/30-06:32:01.154 6f0d Reusing old log /workspaces/rail-way-bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001148.log 
-2024/09/30-06:32:02.920 6f4c Level-0 table #1166: started
-2024/09/30-06:32:02.960 6f4c Level-0 table #1166: 479990 bytes OK
-2024/09/30-06:32:02.989 6f4c Delete type=0 #1148
-2024/09/30-06:32:02.992 6f4c Manual compaction at level-0 from '\x006\x00\x00\x00' @ 72057594037927935 : 1 .. '\x007\x00\x00\x00' @ 0 : 0; will stop at '\x006\x00\x00\x05' @ 4609569 : 1
-2024/09/30-06:32:02.992 6f4c Compacting 1@0 + 0@1 files
-2024/09/30-06:32:03.032 6f4c Generated table #1167@0: 13211 keys, 234218 bytes
-2024/09/30-06:32:03.032 6f4c Compacted 1@0 + 0@1 files => 234218 bytes
-2024/09/30-06:32:03.052 6f4c compacted to: files[ 0 1 13 0 0 0 0 ]
-2024/09/30-06:32:03.052 6f4c Delete type=2 #1166
-2024/09/30-06:32:03.053 6f4c Manual compaction at level-0 from '\x006\x00\x00\x05' @ 4609569 : 1 .. '\x007\x00\x00\x00' @ 0 : 0; will stop at (end)
-2024/09/30-06:32:05.659 6f1e Compacting 1@1 + 3@2 files
-2024/09/30-06:32:05.891 6f1e Generated table #1168@1: 88439 keys, 2240994 bytes
-2024/09/30-06:32:06.065 6f1e Generated table #1169@1: 99160 keys, 2252432 bytes
-2024/09/30-06:32:06.206 6f1e Generated table #1170@1: 54605 keys, 2415112 bytes
-2024/09/30-06:32:06.233 6f1e Generated table #1171@1: 515 keys, 41979 bytes
-2024/09/30-06:32:06.234 6f1e Compacted 1@1 + 3@2 files => 6950517 bytes
-2024/09/30-06:32:06.252 6f1e compacted to: files[ 0 0 14 0 0 0 0 ]
-2024/09/30-06:32:06.252 6f1e Delete type=2 #1156
-2024/09/30-06:32:06.252 6f1e Delete type=2 #1155
-2024/09/30-06:32:06.253 6f1e Delete type=2 #1167
-2024/09/30-06:32:06.253 6f1e Delete type=2 #1157
+2024/09/30-06:56:00.337 9bab Reusing MANIFEST /workspaces/rail-way-bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/09/30-06:56:00.337 9bab Recovering log #1165
+2024/09/30-06:56:00.556 9bab Reusing old log /workspaces/rail-way-bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001165.log 
+2024/09/30-06:56:02.282 9bab Level-0 table #1174: started
+2024/09/30-06:56:02.382 9bab Level-0 table #1174: 1106793 bytes OK
+2024/09/30-06:56:02.405 9bab Delete type=0 #1165
+2024/09/30-06:56:02.409 9bab Manual compaction at level-0 from '\x007\x00\x00\x00' @ 72057594037927935 : 1 .. '\x008\x00\x00\x00' @ 0 : 0; will stop at '\x007\x00\x00\x05' @ 4658441 : 1
+2024/09/30-06:56:02.409 9bab Compacting 1@0 + 0@1 files
+2024/09/30-06:56:02.540 9bab Generated table #1175@0: 29132 keys, 530946 bytes
+2024/09/30-06:56:02.560 9bab Generated table #1176@0: 57 keys, 3833 bytes
+2024/09/30-06:56:02.560 9bab Compacted 1@0 + 0@1 files => 534779 bytes
+2024/09/30-06:56:02.576 9bab compacted to: files[ 0 2 14 0 0 0 0 ]
+2024/09/30-06:56:02.576 9bab Delete type=2 #1174
+2024/09/30-06:56:02.578 9bab Manual compaction at level-0 from '\x007\x00\x00\x05' @ 4658441 : 1 .. '\x008\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/09/30-06:56:04.326 9bf7 Compacting 1@1 + 10@2 files
+2024/09/30-06:56:04.700 9bf7 Generated table #1177@1: 88491 keys, 2239895 bytes
+2024/09/30-06:56:04.969 9bf7 Generated table #1178@1: 98845 keys, 2250457 bytes
+2024/09/30-06:56:05.184 9bf7 Generated table #1179@1: 59542 keys, 2419855 bytes
+2024/09/30-06:56:05.358 9bf7 Generated table #1180@1: 27111 keys, 2179904 bytes
+2024/09/30-06:56:05.577 9bf7 Generated table #1181@1: 51643 keys, 2209662 bytes
+2024/09/30-06:56:05.860 9bf7 Generated table #1182@1: 77614 keys, 2244024 bytes
+2024/09/30-06:56:06.154 9bf7 Generated table #1183@1: 67481 keys, 2235725 bytes
+2024/09/30-06:56:06.407 9bf7 Generated table #1184@1: 49693 keys, 2222850 bytes
+2024/09/30-06:56:06.581 9bf7 Generated table #1185@1: 38351 keys, 2184818 bytes
+2024/09/30-06:56:06.581 9bf7 Compacted 1@1 + 10@2 files => 20187190 bytes
+2024/09/30-06:56:06.618 9bf7 compacted to: files[ 0 1 13 0 0 0 0 ]
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1171
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1160
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1162
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1161
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1168
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1159
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1175
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1158
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1169
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1163
+2024/09/30-06:56:06.619 9bf7 Delete type=2 #1170
+2024/09/30-06:56:08.813 9ba6 Compacting 1@1 + 2@2 files
+2024/09/30-06:56:08.909 9ba6 Generated table #1186@1: 13617 keys, 2142013 bytes
+2024/09/30-06:56:09.049 9ba6 Generated table #1187@1: 57156 keys, 1810674 bytes
+2024/09/30-06:56:09.049 9ba6 Compacted 1@1 + 2@2 files => 3952687 bytes
+2024/09/30-06:56:09.069 9ba6 compacted to: files[ 0 0 13 0 0 0 0 ]

