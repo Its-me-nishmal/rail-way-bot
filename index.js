@@ -3,13 +3,14 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
-const qrcode = require('qrcode-terminal');  // Import the qrcode-terminal module
+const qrcode = require('qrcode-terminal');
 const fetch = require('node-fetch'); // Ensure node-fetch is installed and imported
 
 // Initialize Express app
 const app = express();
 const port = 3000; 
 let serverStarted = false; // Flag to ensure server only starts once
+const pendingRequests = new Map(); // Map to track pending profile pic requests
 
 // Use CORS
 app.use(cors());
@@ -21,7 +22,6 @@ const client = new Client({
     authStrategy: new LocalAuth(),  // LocalAuth saves session so no re-scan is needed
 });
 
-// Function to sanitize and validate phone number
 // Function to sanitize and ensure the phone number starts with '91'
 const sanitizePhoneNumber = (phone) => {
     // Remove all non-digit characters (spaces, hyphens, brackets, etc.)
@@ -78,9 +78,25 @@ client.on('ready', async () => {
 
         const phoneNumber = `${sanitizedPhone}@c.us`;
 
+        // Check if a request for this phone number is already in progress
+        if (pendingRequests.has(phoneNumber)) {
+            console.log(`Request for ${phoneNumber} is already in progress. Waiting for it to complete.`);
+            
+            // Wait for the existing request to complete
+            const profilePicUrl = await pendingRequests.get(phoneNumber);
+            if (profilePicUrl) {
+                return res.json({ profilePicUrl, status: { status: "" } });
+            } else {
+                return res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
+            }
+        }
+
         try {
-            console.log(phoneNumber);
-            let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
+            // Store a pending request with a Promise for the response
+            const profilePicPromise = client.getProfilePicUrl(phoneNumber);
+            pendingRequests.set(phoneNumber, profilePicPromise);
+
+            let profilePicUrl = await profilePicPromise;
 
             if (profilePicUrl) {
                 res.json({ profilePicUrl, status: { status: "" } });
@@ -99,8 +115,11 @@ client.on('ready', async () => {
                 res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
             }
         } catch (error) {
-            console.error('Error fetching profile picture:');
+            console.error('Error fetching profile picture:', error);
             res.status(500).json({ error: 'Failed to fetch profile picture' });
+        } finally {
+            // Remove the request from pendingRequests once it's completed or failed
+            pendingRequests.delete(phoneNumber);
         }
     });
 });
