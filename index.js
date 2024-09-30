@@ -2,7 +2,6 @@ const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion,
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
-const fetch = require('node-fetch');
 
 const app = express();
 const port = 3000;
