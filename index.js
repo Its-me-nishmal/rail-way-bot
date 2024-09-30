@@ -39,7 +39,7 @@ client.on('ready', async () => {
     app.get('/:number', async (req, res) => {
         let phone = req.params.number;
         if ( phone == 'favicon.ico') {
-            return ''
+            res.status(200).json({ ok:'true' });
         }
         const phoneNumber = `${phone}@c.us`;
     
