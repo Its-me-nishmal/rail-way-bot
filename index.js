@@ -7,6 +7,7 @@ const app = express();
 const port = 3000;
 let client;
 let serverStarted = false;
+let isClientConnected = false; // Track client connection status
 const pendingRequests = new Map();
 
 app.use(cors());
@@ -40,8 +41,13 @@ const initializeBaileys = async () => {
     client.ev.on('connection.update', (update) => {
         const { connection, lastDisconnect } = update;
         if (connection === 'close') {
-            const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
+            isClientConnected = false;
+            console.log('Connection closed');
+            if (lastDisconnect?.error?.output?.statusCode === DisconnectReason.conflict) {
+                console.log('Stream Errored: Session Conflict Detected. Not reconnecting.');
+            }
         } else if (connection === 'open') {
+            isClientConnected = true;
             console.log('Baileys Client is ready to use!');
 
             if (!serverStarted) {
@@ -56,9 +62,9 @@ const initializeBaileys = async () => {
 
 initializeBaileys();
 
-app.get('/:number', async (req, res) => {
+app.get('/dp/:number', async (req, res) => {
     let phone = req.params.number;
-    if (phone == 'favicon.ico') return res.status(200).json({ ok: 'true' });
+    if (phone === 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
     const sanitizedPhone = sanitizePhoneNumber(phone);
     if (!isValidPhoneNumber(sanitizedPhone)) {
@@ -72,6 +78,10 @@ app.get('/:number', async (req, res) => {
         return profilePicUrl
             ? res.json({ profilePicUrl })
             : res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
+    }
+
+    if (!isClientConnected) {
+        return res.status(500).json({ error: 'Client is not connected. Please check the connection.' });
     }
 
     try {
@@ -111,6 +121,10 @@ app.get('/send', async (req, res) => {
 
     if (!message) {
         return res.status(400).json({ error: 'Message is required.' });
+    }
+
+    if (!isClientConnected) {
+        return res.status(500).json({ error: 'Client is not connected. Please check the connection.' });
     }
 
     const phoneNumber = `${sanitizedPhone}@s.whatsapp.net`;
