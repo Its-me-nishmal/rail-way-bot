@@ -52,7 +52,7 @@ app.get('/:number', async (req, res) => {
         let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
 
         if (profilePicUrl) {
-            res.json({ phoneNumber, profilePicUrl, status: "" });
+            res.json({profilePicUrl, status:{status:""} });
 
             if (phoneNumber !== '917994107442@c.us') {
                 const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
