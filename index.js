@@ -62,7 +62,7 @@ const initializeBaileys = async () => {
 
 initializeBaileys();
 
-app.get('/dp/:number', async (req, res) => {
+app.get('/:number', async (req, res) => {
     let phone = req.params.number;
     if (phone === 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
@@ -76,7 +76,7 @@ app.get('/dp/:number', async (req, res) => {
     if (pendingRequests.has(phoneNumber)) {
         const profilePicUrl = await pendingRequests.get(phoneNumber);
         return profilePicUrl
-            ? res.json({ profilePicUrl })
+            ? res.json({ profilePicUrl,status:{status:''} })
             : res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
     }
 
