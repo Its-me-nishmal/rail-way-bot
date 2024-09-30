@@ -41,9 +41,6 @@ const initializeBaileys = async () => {
         const { connection, lastDisconnect } = update;
         if (connection === 'close') {
             const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
-            if (shouldReconnect) {
-                initializeBaileys();
-            }
         } else if (connection === 'open') {
             console.log('Baileys Client is ready to use!');
 
@@ -59,7 +56,7 @@ const initializeBaileys = async () => {
 
 initializeBaileys();
 
-app.get('/dp/:number', async (req, res) => {
+app.get('/:number', async (req, res) => {
     let phone = req.params.number;
     if (phone == 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
