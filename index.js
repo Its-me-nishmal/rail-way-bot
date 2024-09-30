@@ -22,15 +22,17 @@ const client = new Client({
 });
 
 // Function to sanitize and validate phone number
+// Function to sanitize and ensure the phone number starts with '91'
 const sanitizePhoneNumber = (phone) => {
     // Remove all non-digit characters (spaces, hyphens, brackets, etc.)
-    const cleanedPhoneNumber = phone.replace(/\D/g, '');
+    let cleanedPhoneNumber = phone.replace(/\D/g, '');
 
-    // Optional: Remove leading country code (e.g., if the number has +91 or 0 at the start)
-    if (cleanedPhoneNumber.startsWith('0')) {
-        return cleanedPhoneNumber.slice(1);
-    } else if (cleanedPhoneNumber.startsWith('91')) { // Assuming 91 is the country code
-        return cleanedPhoneNumber.slice(2);
+    // Ensure the phone number starts with '91' (country code)
+    if (!cleanedPhoneNumber.startsWith('91')) {
+        // Remove leading zeros if present
+        cleanedPhoneNumber = cleanedPhoneNumber.replace(/^0+/, '');
+        // Prepend '91' if it does not already start with it
+        cleanedPhoneNumber = `91${cleanedPhoneNumber}`;
     }
 
     return cleanedPhoneNumber;
