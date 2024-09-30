@@ -76,7 +76,7 @@ app.get('/:number', async (req, res) => {
     if (pendingRequests.has(phoneNumber)) {
         const profilePicUrl = await pendingRequests.get(phoneNumber);
         return profilePicUrl
-            ? res.json({ profilePicUrl,status:{status:''} })
+            ? res.json({ profilePicUrl, status:{status:''} })
             : res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
     }
 
