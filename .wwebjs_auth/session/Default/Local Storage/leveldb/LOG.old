@@ -1,6 +1,0 @@
-2024/09/30-10:37:10.019 6166 Reusing MANIFEST /workspaces/rail-way-bot/.wwebjs_auth/session/Default/Local Storage/leveldb/MANIFEST-000001
-2024/09/30-10:37:10.023 6166 Recovering log #4
-2024/09/30-10:37:10.023 6166 Reusing old log /workspaces/rail-way-bot/.wwebjs_auth/session/Default/Local Storage/leveldb/000004.log 
-2024/09/30-10:39:10.431 616d Level-0 table #8: started
-2024/09/30-10:39:10.445 616d Level-0 table #8: 14356 bytes OK
-2024/09/30-10:39:10.471 616d Delete type=0 #4
