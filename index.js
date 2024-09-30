@@ -63,7 +63,7 @@ client.on('ready', async () => {
     }
     
     // Route to get profile picture of a number
-    app.get('/:number', async (req, res) => {
+    app.get('/dp/:number', async (req, res) => {
         let phone = req.params.number;
 
         if (phone == 'favicon.ico') {
