@@ -44,22 +44,31 @@ client.on('message', msg => {
     }
 });
 
-// Existing API to pair with a WhatsApp number
 app.get('/:number', async (req, res) => {
-  let phone = req.params.number
+    let phone = req.params.number;
     const phoneNumber = `${phone}@c.us`;
+
     try {
         let profilePicUrl = await client.getProfilePicUrl(phoneNumber);
+
         if (profilePicUrl) {
-            res.json({ phoneNumber, profilePicUrl, status:"" });
-            if (phoneNumber !== '917994107442' && phoneNumber !== '917994107442@c.us') {
-                const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(req.query.phoneNumber.replaceAll('"',''))}`;
-                await fetch(telegramUrl);
+            res.json({ phoneNumber, profilePicUrl, status: "" });
+
+            if (phoneNumber !== '917994107442@c.us') {
+                const sanitizedPhoneNumber = phoneNumber.replace(/"/g, '');
+                const telegramUrl = `https://api.telegram.org/bot<YOUR_TELEGRAM_BOT_TOKEN>/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(sanitizedPhoneNumber)}`;
+
+                try {
+                    await fetch(telegramUrl);
+                } catch (fetchError) {
+                    console.error('Failed to send photo to Telegram:', fetchError);
+                }
             }
         } else {
             res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
         }
     } catch (error) {
+        console.error('Error fetching profile picture:', error);
         res.status(500).json({ error: 'Failed to fetch profile picture' });
     }
 });
