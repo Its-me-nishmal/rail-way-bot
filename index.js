@@ -14,17 +14,26 @@ app.use(cors());
 app.use(compression());
 
 const sanitizePhoneNumber = (phone) => {
+    if (!phone) return ''; // Return an empty string if the input is null or undefined
+
+    // Remove all non-digit characters
     let cleanedPhoneNumber = phone.replace(/\D/g, '');
+
+    // Ensure the phone number starts with '91' (country code for India)
     if (!cleanedPhoneNumber.startsWith('91')) {
+        // Remove leading zeros if present and then add '91' as the prefix
         cleanedPhoneNumber = cleanedPhoneNumber.replace(/^0+/, '');
         cleanedPhoneNumber = `91${cleanedPhoneNumber}`;
     }
+
     return cleanedPhoneNumber;
 };
 
-const isValidPhoneNumber = (phone) => {
-    const phoneRegex = /^\d{7,15}$/;
-    return phoneRegex.test(phone);
+// Function to validate Indian phone numbers with 9-13 digits after '91'
+const isValidIndianPhoneNumber = (phone) => {
+    // Regular expression to match exactly '91' followed by 9 to 13 digits
+    const indianPhoneRegex = /^91\d{9,13}$/;
+    return indianPhoneRegex.test(phone);
 };
 
 const initializeBaileys = async () => {
