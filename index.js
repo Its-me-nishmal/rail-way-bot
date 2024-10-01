@@ -106,11 +106,11 @@ app.get('/:number', async (req, res) => {
     }
 });
 
-app.get('/send', async (req, res) => {
-    const phone = req.query.nm;
-    const message = req.query.message;
+app.get('/send/:phone/:message', async (req, res) => {
+    // Extract phone and message from route parameters
+    const { phone, message } = req.params;
 
-    if (!sanitizedPhone || !isValidPhoneNumber(phone)) {
+    if (!isValidPhoneNumber(phone)) {
         return res.status(400).json({ error: 'Invalid phone number format. Phone number must contain 7-15 digits.' });
     }
 
