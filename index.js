@@ -2,6 +2,7 @@ const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion,
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
+const { parsePhoneNumberFromString } = require('libphonenumber-js');
 
 const app = express();
 const port = 3000;
@@ -13,27 +14,12 @@ const pendingRequests = new Map();
 app.use(cors());
 app.use(compression());
 
-const sanitizePhoneNumber = (phone) => {
-    if (!phone) return ''; // Return an empty string if the input is null or undefined
+const isValidPhoneNumber = (phone) => {
+    // Parse the phone number without specifying a country code
+    const phoneNumber = parsePhoneNumberFromString(phone);
 
-    // Remove all non-digit characters
-    let cleanedPhoneNumber = phone.replace(/\D/g, '');
-
-    // Ensure the phone number starts with '91' (country code for India)
-    if (!cleanedPhoneNumber.startsWith('91')) {
-        // Remove leading zeros if present and then add '91' as the prefix
-        cleanedPhoneNumber = cleanedPhoneNumber.replace(/^0+/, '');
-        cleanedPhoneNumber = `91${cleanedPhoneNumber}`;
-    }
-
-    return cleanedPhoneNumber;
-};
-
-// Function to validate Indian phone numbers with 9-13 digits after '91'
-const isValidIndianPhoneNumber = (phone) => {
-    // Regular expression to match exactly '91' followed by 9 to 13 digits
-    const indianPhoneRegex = /^91\d{9,13}$/;
-    return indianPhoneRegex.test(phone);
+    // Return true if the number is valid
+    return phoneNumber ? phoneNumber.isValid() : false;
 };
 
 const initializeBaileys = async () => {
@@ -75,8 +61,8 @@ app.get('/:number', async (req, res) => {
     let phone = req.params.number;
     if (phone === 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
-    const sanitizedPhone = sanitizePhoneNumber(phone);
-    if (!isValidPhoneNumber(sanitizedPhone)) {
+   
+    if (!isValidPhoneNumber(phone)) {
         return res.status(400).json({ error: 'Invalid phone number format. Only digits (7-15) are allowed.' });
     }
 
@@ -123,8 +109,7 @@ app.get('/send', async (req, res) => {
     const phone = req.query.nm;
     const message = req.query.message;
 
-    const sanitizedPhone = sanitizePhoneNumber(phone);
-    if (!sanitizedPhone || !isValidPhoneNumber(sanitizedPhone)) {
+    if (!sanitizedPhone || !isValidPhoneNumber(phone)) {
         return res.status(400).json({ error: 'Invalid phone number format. Phone number must contain 7-15 digits.' });
     }
 
