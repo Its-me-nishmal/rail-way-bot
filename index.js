@@ -122,7 +122,7 @@ app.get('/send/:phone/:message', async (req, res) => {
         return res.status(500).json({ error: 'Client is not connected. Please check the connection.' });
     }
 
-    const phoneNumber = `${sanitizedPhone}@s.whatsapp.net`;
+    const phoneNumber = `${phone}@s.whatsapp.net`;
 
     try {
         await client.sendMessage(phoneNumber, { text: message });
