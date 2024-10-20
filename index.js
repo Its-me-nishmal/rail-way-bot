@@ -142,7 +142,7 @@ app.get('/send/:phone/:message', async (req, res) => {
             });
         } else {
             await client.sendMessage(phoneNumber, {
-                body: `
+                text: `
 📩 *Message from Near By Pins:*  
 ${message}  
     
