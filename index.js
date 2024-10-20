@@ -39,9 +39,6 @@ const initializeBaileys = async () => {
         if (connection === 'close') {
             isClientConnected = false;
             console.log('Connection closed');
-            setTimeout(() => {
-                initializeBaileys(); // Reconnect after a brief delay
-            }, 5000);
         } else if (connection === 'open') {
             isClientConnected = true;
             console.log('Baileys Client is ready to use!');
@@ -141,12 +138,12 @@ app.get('/send/:phone/:message', async (req, res) => {
 🔒 _Powered by Near By Pins_ 💌`.trim(),
             });
         } else {
-            await client.sendMessage(phoneNumber,`
+            let m = `
 📩 *Message from Near By Pins:*  
 ${message}  
     
-🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim(),
-            );
+🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim();
+            await client.sendMessage(phoneNumber,m);
         }
     
         res.json({
