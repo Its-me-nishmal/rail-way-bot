@@ -125,17 +125,39 @@ app.get('/send/:phone/:message', async (req, res) => {
     const phoneNumber = `${phone}@s.whatsapp.net`;
 
     try {
-        let url = 'https://placehold.co/600x400/D8D2C2/4A4947/png?font=lora&text='+ message;
+        const url = `https://placehold.co/600x400/FFFFFF/333333/png?font=lora&text=${message}`;
+    
+        // Check if the message contains only 4 digits
+        const isOTP = /^\d{4}$/.test(message);
+    
+        const caption = isOTP
+            ? `
+    📲 *Your OTP: ${message}*  
+    ⏳ *Valid for 3 minutes*  
+    ⚠️ *Do not share this code with anyone to keep your account secure.*  
+    
+    🔒 _Powered by NearbyPins_ 💌`
+            : `
+    📩 *Message from NearbyPins:*  
+    ${message}  
+    
+    🔔 _Stay tuned for updates and offers!_`;
+    
         await client.sendMessage(phoneNumber, {
-            image: { url: url }, // Corrected to lowercase "image"
-            caption: `
-> *Your OTP is ${message}.* 
-> It is valid for 3 minutes. Do not share this code with anyone to keep your account secure.
-> Powered By NearbyPins 💌`
-
+            image: { url },
+            caption: caption.trim(),
         });
-        res.json({ status: 'Message sent successfully', phoneNumber, message });
+    
+        res.json({ 
+            status: 'Message sent successfully', 
+            phoneNumber, 
+            message 
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to send message', details: error.message });
+        res.status(500).json({ 
+            error: 'Failed to send message', 
+            details: error.message 
+        });
     }
+    
 });
