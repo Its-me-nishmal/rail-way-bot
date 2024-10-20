@@ -140,10 +140,11 @@ app.get('/send/:phone/:message', async (req, res) => {
         } else {
             let m = `
 📩 *Message from Near By Pins:*  
+
 ${message}  
     
-🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim();
-            await client.sendMessage(phoneNumber,{m});
+> _updates from Near By Pins!_`.trim();
+            await client.sendMessage(phoneNumber,{text:m});
         }
     
         res.json({
