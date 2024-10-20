@@ -39,9 +39,9 @@ const initializeBaileys = async () => {
         if (connection === 'close') {
             isClientConnected = false;
             console.log('Connection closed');
-            if (lastDisconnect?.error?.output?.statusCode === DisconnectReason.conflict) {
-                console.log('Stream Errored: Session Conflict Detected. Not reconnecting.');
-            }
+            setTimeout(() => {
+                initializeBaileys(); // Reconnect after a brief delay
+            }, 5000);
         } else if (connection === 'open') {
             isClientConnected = true;
             console.log('Baileys Client is ready to use!');
@@ -125,39 +125,42 @@ app.get('/send/:phone/:message', async (req, res) => {
     const phoneNumber = `${phone}@s.whatsapp.net`;
 
     try {
-        const url = `https://placehold.co/600x400/FFFFFF/333333/png?font=lora&text=${message}`;
-    
-        // Check if the message contains only 4 digits
+        // Check if the message contains exactly 4 digits (OTP)
         const isOTP = /^\d{4}$/.test(message);
     
-        const caption = isOTP
-            ? `
-    📲 *Your OTP: ${message}*  
-    ⏳ *Valid for 3 minutes*  
-    ⚠️ *Do not share this code with anyone to keep your account secure.*  
+        if (isOTP) {
+            const url = `https://placehold.co/600x400/FFFFFF/333333/png?font=lora&text=${message}`;
     
-    🔒 _Powered by NearbyPins_ 💌`
-            : `
-    📩 *Message from NearbyPins:*  
-    ${message}  
+            await client.sendMessage(phoneNumber, {
+                image: { url },
+                caption: `
+📲 *Your OTP: ${message}*  
+⏳ *Valid for 3 minutes*  
+⚠️ *Do not share this code with anyone to keep your account secure.*  
     
-    🔔 _Stay tuned for updates and offers!_`;
+🔒 _Powered by Near By Pins_ 💌`.trim(),
+            });
+        } else {
+            await client.sendMessage(phoneNumber, {
+                body: `
+📩 *Message from Near By Pins:*  
+${message}  
     
-        await client.sendMessage(phoneNumber, {
-            image: { url },
-            caption: caption.trim(),
-        });
+🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim(),
+            });
+        }
     
-        res.json({ 
-            status: 'Message sent successfully', 
-            phoneNumber, 
-            message 
+        res.json({
+            status: 'Message sent successfully',
+            phoneNumber,
+            message,
         });
     } catch (error) {
-        res.status(500).json({ 
-            error: 'Failed to send message', 
-            details: error.message 
+        res.status(500).json({
+            error: 'Failed to send message',
+            details: error.message,
         });
     }
+    
     
 });
