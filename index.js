@@ -143,7 +143,7 @@ app.get('/send/:phone/:message', async (req, res) => {
 ${message}  
     
 🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim();
-            await client.sendMessage(phoneNumber,m);
+            await client.sendMessage(phoneNumber,{m});
         }
     
         res.json({
