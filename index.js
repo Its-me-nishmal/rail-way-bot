@@ -141,13 +141,12 @@ app.get('/send/:phone/:message', async (req, res) => {
 🔒 _Powered by Near By Pins_ 💌`.trim(),
             });
         } else {
-            await client.sendMessage(phoneNumber, {
-                text: `
+            await client.sendMessage(phoneNumber,`
 📩 *Message from Near By Pins:*  
 ${message}  
     
 🔔 _Stay tuned for updates and offers from Near By Pins!_`.trim(),
-            });
+            );
         }
     
         res.json({
