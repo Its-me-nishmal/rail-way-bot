@@ -165,7 +165,14 @@ app.get('/:number', async (req, res) => {
     }
 });
 
+const isValidPhoneNumber = (phone) => {
+    let formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
+    // Parse the phone number without specifying a country code
+    const phoneNumber = parsePhoneNumberFromString(formattedPhone);
 
+    // Return true if the number is valid
+    return phoneNumber ? phoneNumber.isValid() : false;
+};
 
 // Send OTP Endpoint
 app.get('/send-otp', async (req, res) => {
