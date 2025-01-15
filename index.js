@@ -6,6 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const { parsePhoneNumberFromString } = require('libphonenumber-js');
 
+
+const pendingRequests = new Map();
+
 const app = express();
 const port = 3000;
 let client;
